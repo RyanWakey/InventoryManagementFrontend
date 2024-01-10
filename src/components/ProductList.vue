@@ -23,7 +23,7 @@
     },
     methods: {
       fetchProducts() {
-        axios.get('http://your-api-url/products')
+        axios.get('http://localhost:18080/products')
           .then(response => {
             this.products = response.data;
           })
