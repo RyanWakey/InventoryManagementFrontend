@@ -4,7 +4,6 @@
       <!-- Logo and branding -->
       <div class="navbar-brand">
         <img src="@/assets/IMlogo.png" alt="Company Logo" class="navbar-logo">
-        <span>Inventory Pro Management</span>
       </div>
   
       <!-- Navigation links -->
@@ -24,6 +23,19 @@
   </script>
   
   <style scoped>
-  /* Your styles for navbar here */
+  .navbar-logo {
+    width: 150px;
+    height: auto;
+  }
+
+  .navbar-brand {
+    display: flex;
+    align-items: center;
+  }
+
+  .navbar-brand span {
+    margin-left: 10px;
+  }
+
   </style>
   
