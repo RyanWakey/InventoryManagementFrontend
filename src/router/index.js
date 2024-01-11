@@ -1,27 +1,23 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router'
 import HomePage from '../views/HomePage.vue'
-import ProductPage from '../views/ProductPage.vue'
-
-Vue.use(VueRouter)
+import ProductPage from '../views/ProductPage.vue' 
 
 const routes = [
   {
     path: '/',
-    name: 'HomePage',
+    name: 'Home',
     component: HomePage
   },
   {
     path: '/products',
-    name: 'ProductPage',
+    name: 'Products',
     component: ProductPage
   },
-  // Add more routes as needed
+  // Define other routes as needed
 ]
 
-const router = new VueRouter({
-  mode: 'history',
-  base: process.env.BASE_URL,
+const router = createRouter({
+  history: createWebHistory(process.env.BASE_URL),
   routes
 })
 
