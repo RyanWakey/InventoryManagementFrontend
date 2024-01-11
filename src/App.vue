@@ -1,16 +1,15 @@
+<!-- App.vue -->
 <template>
-  <div id="app">
-    <!-- The router-view component displays the component based on the current route -->
-    <router-view></router-view>
-  </div>
+  <BasicLayout />
 </template>
 
 <script>
+import BasicLayout from './components/BasicLayout.vue';
+
 export default {
-  name: 'App'
+  name: 'App',
+  components: {
+    BasicLayout
+  }
 }
 </script>
-
-<style>
-/* Your existing styles */
-</style>
