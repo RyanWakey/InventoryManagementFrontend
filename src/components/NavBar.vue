@@ -23,19 +23,43 @@
   </script>
   
   <style scoped>
-  .navbar-logo {
-    width: 150px;
-    height: auto;
-  }
-
-  .navbar-brand {
+  .navbar {
+    background-color: rgb(7, 124, 126);
     display: flex;
     align-items: center;
-  }
+    padding: 16px 20px;
+ }
+ .navbar-menu {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+ .navbar-brand {
+  display: flex;
+  align-items: center;
+  margin-right: 50px;
+ }
 
-  .navbar-brand span {
-    margin-left: 10px;
-  }
+ .navbar-logo{
+  width: 240px;
+  height: auto;
+ }
 
+ .navbar-menu .navbar-item {
+  margin-right: 20px;
+  color: white; 
+  text-decoration: none; /* Removes underline from links */
+  font-size: 22px;
+  font-weight: bold;
+ }
+
+ .navbar-menu .navbar-item:last-child {
+  margin-right: 0; /* Remove margin from the last item */
+ }
+
+.navbar-menu .navbar-item {
+  padding: 0 15px;
+}
   </style>
   
