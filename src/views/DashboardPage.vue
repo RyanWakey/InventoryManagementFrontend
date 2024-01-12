@@ -36,20 +36,28 @@ export default {
 <style scoped>
 .dashboard-header {
   text-align: center;
+  margin-bottom: 20px; /* Add some space below the dashboard header */
 }
 
 .dashboard_content {
   display: flex;
-  justify-content: space-around; /* Spaces cards evenly */
+  justify-content: center; /* Center the cards container */
   flex-wrap: wrap; /* Allows cards to wrap onto the next line on small screens */
+  gap: 20px; /* Adjust the gap between cards */
 }
 
 .dashboard-card {
-  width: calc(50% - 20px); /* Calculating width by subtracting the total margin */
+  width: 34%; /* Calculating width by subtracting the total margin */
   margin: 10px; 
   box-shadow: 0 2px 4px rgba(0,0,0,0,2); /* Simple box shadow for styling */
-  padding: 20px; /* Padding inside the cards */
+  padding: 12px; /* Padding inside the cards */
   background: white; /* Background color for the cards */
-  border-radius: 5px; /* Rounded corners for the cards */
+  border-radius: 6px; /* Rounded corners for the cards */
+  border: 2px solid #00000081;
 } 
+
+h2 {
+  font-size: 16px;
+}
+
 </style>
