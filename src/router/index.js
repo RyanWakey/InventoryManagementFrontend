@@ -5,7 +5,7 @@ import ProductPage from '../views/ProductPage.vue'
 const routes = [
   {
     path: '/',
-    name: 'HomePage',
+    name: 'DashboardPage',
     component: DashboardPage
   },
   {

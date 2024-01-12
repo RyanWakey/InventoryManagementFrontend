@@ -1,7 +1,8 @@
 <!-- DashboardCard.vue -->
 <template>
   <div class="dashboard-card">
-    <slot></slot> <!-- Use slots to inject custom content -->
+    <slot name="title"></slot> <!-- This is where the title slot content will go -->
+    <slot></slot> <!-- Default slot for the main content -->
   </div>
 </template>
 
