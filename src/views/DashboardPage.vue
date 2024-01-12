@@ -10,6 +10,7 @@
           <h2>Total Sales</h2>
         </template>
         <!-- Content for total Sales -->
+        <SalesCard />
       </DashboardCard>
       <DashboardCard class="dashboard-card">
         <template v-slot:title>
@@ -24,11 +25,13 @@
 
 <script>
 import DashboardCard from '@/components/DashboardCard.vue';
+import SalesCard from '@/components/SalesCard.vue';
 
 export default {
   name: 'DashboardHome',
   components: {
-    DashboardCard
+    DashboardCard,
+    SalesCard
   }
 }
 </script>
