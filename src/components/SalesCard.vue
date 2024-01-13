@@ -16,18 +16,18 @@ export default {
   },
   methods: {
     fetchTotalSales() {
-      // Fetch data from the API
-      fetch("http://localhost:18080/sales/count")
-        .then(response => {
-          if (!response.ok) {
-            throw new Error('Network response was not ok');
-          }
-          return response.json();
-        })
-        .then(data => {
-          this.totalSales = data.totalSales;
-        })
-        .catch(error => console.error('Error fetching total sales:', error));
+    fetch("http://localhost:18080/sales/count")
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json(); // This parses the JSON body text as a JavaScript object
+      })
+      .then(data => {
+        console.log('Total sales data:', data);
+        this.totalSales = data; // Now it expects an object with a totalSales property
+      })
+      .catch(error => console.error('Error fetching total sales:', error));
     }
   }
 }
