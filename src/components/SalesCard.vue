@@ -35,6 +35,20 @@ export default {
 
 
 
-<style scoped
+<style scoped>
 
-></style>
+.sales-total {
+  background-color: #f0f0f0; /* Light grey background */
+  padding: 16px;
+  border-radius: 8px;
+}
+
+.sales-total h2 {
+  color: #1b1b1b; /* Dark grey text for less blackness */
+  margin: 0;
+  margin-left: 8px; /* Shift text to the right by 8px */
+  font-size: 16px; /* Smaller font size */
+}
+
+
+</style>

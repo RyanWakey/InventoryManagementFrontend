@@ -50,7 +50,7 @@ export default {
 }
 
 .dashboard-card {
-  width: 34%; /* Calculating width by subtracting the total margin */
+  width: 28%; /* Calculating width by subtracting the total margin */
   margin: 10px; 
   box-shadow: 0 2px 4px rgba(0,0,0,0,2); /* Simple box shadow for styling */
   padding: 12px; /* Padding inside the cards */
@@ -60,7 +60,7 @@ export default {
 } 
 
 h2 {
-  font-size: 16px;
+  font-size: 21px;
 }
 
 </style>
