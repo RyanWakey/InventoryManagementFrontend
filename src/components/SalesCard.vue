@@ -1,8 +1,7 @@
 <template>
     <div class="sales-total">
         <h2> Total Sales Sold: {{ totalSales }}</h2>
-    </div>
-    <div class="sales-revenue">
+    </div>    <div class="sales-revenue">
         <h2> Total Revenue: £{{ totalRevenue }}</h2>
     </div>
 </template>
@@ -17,7 +16,9 @@ export default {
   },
   mounted() {
     this.fetchTotalSales();
+    setTimeout(() => {
     this.fetchTotalRevenue();
+  }, 1000); // Delay of 1000 milliseconds (1 second)
   },
   methods: {
     fetchTotalSales() {
@@ -35,7 +36,8 @@ export default {
       .catch(error => console.error('Error fetching total sales:', error));
     },
     fetchTotalRevenue() {
-      fetch("http://localhost:18080/sales/revenue").then(response => {
+      fetch("http://localhost:18080/sales/revenue")
+        .then(response => {
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
@@ -45,7 +47,7 @@ export default {
         console.log('Total sales data: ', data);
         this.totalRevenue = data.totalRevenue;
       })
-      .catch(error => console.error('Error fetching total sales: ', error));
+      .catch(error => console.error('Error fetching total revenue: ', error));
     }
   }
 }
