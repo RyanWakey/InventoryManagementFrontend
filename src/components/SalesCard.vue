@@ -1,14 +1,16 @@
 <template>
-  <div class="sales-info-container">
+  <div class="dashboard-container">
+    <div class="sales-info-container">
       <div class="sales-total">
-          <h2>Total Sales Sold: {{ totalSales }}</h2>
+        <h2>Total Sales Sold: {{ totalSales }}</h2>
       </div>
       <div class="sales-revenue">
-          <h2>Total Revenue: £{{ totalRevenue }}</h2>
+        <h2>Total Revenue: £{{ totalRevenue }}</h2>
       </div>
-      <div class="sales-revenue-chart">
-          <canvas ref="canvas"></canvas>
-      </div>
+    </div>
+    <div class="sales-revenue-chart">
+      <canvas ref="canvas"></canvas>
+    </div>
   </div>
 </template>
 
@@ -94,7 +96,7 @@ export default {
         data: {
           labels: labels, 
           datasets: [{
-            label: 'Monthly Revenue',
+            label: "Monthly Revenues",
             data: dataPoints,
             borderColor: 'rgb(75,192,192)',
             tension: 0.1
@@ -147,6 +149,20 @@ export default {
   display: flex;
   justify-content: space-between; /* This will place the child elements on opposite ends */
   align-items: center; /* This will vertically align them in the center */ 
+}
+
+.sales-revenue-chart {
+  width: 100%; /* Adjust width as needed */
+  max-width: 700px; /* Or however wide you want the chart to be */
+  height: 300px; /* Adjust height as needed */
+}
+
+/* Add some media queries if you need responsiveness */
+@media (max-width: 768px) {
+  .sales-revenue-chart {
+    width: 100%;
+    height: 300px;
+  }
 }
 
 </style>
