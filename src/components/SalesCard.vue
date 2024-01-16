@@ -1,12 +1,25 @@
 <template>
-    <div class="sales-total">
-        <h2> Total Sales Sold: {{ totalSales }}</h2>
-    </div>    <div class="sales-revenue">
-        <h2> Total Revenue: £{{ totalRevenue }}</h2>
-    </div>
+  <div class="sales-info-container">
+      <div class="sales-total">
+          <h2>Total Sales Sold: {{ totalSales }}</h2>
+      </div>
+      <div class="sales-revenue">
+          <h2>Total Revenue: £{{ totalRevenue }}</h2>
+      </div>
+      <div class="sales-revenue-chart">
+          <canvas ref="canvas"></canvas>
+      </div>
+  </div>
 </template>
 
 <script>
+
+import Chart from 'chart.js/auto';
+import { LineController, LineElement, PointElement, LinearScale, CategoryScale } from 'chart.js';
+
+// Register the line controller
+Chart.register(LineController, LineElement, PointElement, LinearScale, CategoryScale);
+
 export default {
   data() {
     return {
@@ -16,11 +29,11 @@ export default {
   },
   mounted() {
     this.fetchTotalSales();
-    setTimeout(() => {
     this.fetchTotalRevenue();
-  }, 1000); // Delay of 1000 milliseconds (1 second)
+    this.fetchMonthlyRevenue();
   },
   methods: {
+
     fetchTotalSales() {
     fetch("http://localhost:18080/sales/count")
       .then(response => {
@@ -35,6 +48,7 @@ export default {
       })
       .catch(error => console.error('Error fetching total sales:', error));
     },
+
     fetchTotalRevenue() {
       fetch("http://localhost:18080/sales/revenue")
         .then(response => {
@@ -48,10 +62,56 @@ export default {
         this.totalRevenue = data.totalRevenue;
       })
       .catch(error => console.error('Error fetching total revenue: ', error));
-    }
+    },
+
+    
+    fetchMonthlyRevenue() {
+      fetch("http://localhost:18080/sales/monthly-revenue")
+        .then(response => response.json())
+        .then(data => { // 'data' should be the array based on your Postman output
+          this.prepareChartData(data); // Pass the array directly to 'prepareChartData'
+        })
+        .catch(error => console.error('Error fetching monthly revenue', error));
+    },
+
+    prepareChartData(monthlyRevenues) {
+      // Make sure 'monthlyRevenues' is actually an array before proceeding
+      if (!Array.isArray(monthlyRevenues)) {
+        console.error('Data is not an array:', monthlyRevenues);
+        return;
+      }
+
+      const labels = monthlyRevenues.map(rev => `${rev.month}/${rev.year}`);
+      const dataPoints = monthlyRevenues.map(rev => rev.totalRevenue);
+
+      this.renderChart(labels, dataPoints);
+    },
+
+    renderChart(labels, dataPoints) {
+      const ctx = this.$refs.canvas.getContext('2d');
+      new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: labels, 
+          datasets: [{
+            label: 'Monthly Revenue',
+            data: dataPoints,
+            borderColor: 'rgb(75,192,192)',
+            tension: 0.1
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false
+        }
+      });
+    },
   }
 }
 </script>
+
+
+
 
 
 
@@ -81,6 +141,12 @@ export default {
   margin: 0;
   margin-left: 8px; /* Shift text to the right by 8px */
   font-size: 16px; 
+}
+
+.sales-info-container {
+  display: flex;
+  justify-content: space-between; /* This will place the child elements on opposite ends */
+  align-items: center; /* This will vertically align them in the center */ 
 }
 
 </style>
