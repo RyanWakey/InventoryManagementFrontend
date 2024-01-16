@@ -17,6 +17,9 @@
           <h2>Product Sales Information</h2>
         </template>
         <!-- Contnet for recent transactions -->
+        <ProductSaleCard>
+
+        </ProductSaleCard>
       </DashboardCard>
       <!-- Add the rest here --> 
    </div>
@@ -26,12 +29,14 @@
 <script>
 import DashboardCard from '@/components/DashboardCard.vue';
 import SalesCard from '@/components/SalesCard.vue';
+import ProductSaleCard from '@/components/ProductSaleCard.vue'
 
 export default {
   name: 'DashboardHome',
   components: {
     DashboardCard,
-    SalesCard
+    SalesCard,
+    ProductSaleCard
   }
 }
 </script>

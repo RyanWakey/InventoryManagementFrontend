@@ -1,11 +1,11 @@
 <template>
-  <div class="dashboard-container">
+  <div class="sales-dashboard-container">
     <div class="sales-info-container">
       <div class="sales-total">
-        <h2>Total Sales Sold: {{ totalSales }}</h2>
+        <h2>Total sales sold: {{ totalSales }}</h2>
       </div>
       <div class="sales-revenue">
-        <h2>All Time Revenue: £{{ totalRevenue }}</h2>
+        <h2>All time revenue: £{{ totalRevenue }}</h2>
       </div>
     </div>
     <div class="sales-revenue-chart">
@@ -39,7 +39,6 @@ export default {
     this.fetchMonthlyRevenue();
   },
   methods: {
-
     fetchTotalSales() {
     fetch("http://localhost:18080/sales/count")
       .then(response => {
