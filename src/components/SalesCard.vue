@@ -5,11 +5,14 @@
         <h2>Total Sales Sold: {{ totalSales }}</h2>
       </div>
       <div class="sales-revenue">
-        <h2>Total Revenue: £{{ totalRevenue }}</h2>
+        <h2>All Time Revenue: £{{ totalRevenue }}</h2>
       </div>
     </div>
     <div class="sales-revenue-chart">
       <canvas ref="canvas"></canvas>
+    </div>
+    <div class="total-revenue-last-twelve-months">
+      Total Revenue for the Last 12 Months: £{{ totalRevenueLastTwelveMonths.toFixed(2) }}
     </div>
   </div>
 </template>
@@ -27,6 +30,7 @@ export default {
     return {
       totalSales: 0,
       totalRevenue: 0,
+      totalRevenueLastTwelveMonths: 0,
     };
   },
   mounted() {
@@ -77,21 +81,47 @@ export default {
     },
 
     prepareChartData(monthlyRevenues) {
-      // Make sure 'monthlyRevenues' is actually an array before proceeding
-      if (!Array.isArray(monthlyRevenues)) {
-        console.error('Data is not an array:', monthlyRevenues);
-        return;
-      }
+    // Sort the revenues by date from oldest to newest
+    monthlyRevenues.sort((a, b) => {
+      const dateA = new Date(a.year, a.month - 1); // JS months are 0-indexed
+      const dateB = new Date(b.year, b.month - 1);
+      return dateA - dateB;
+    });
 
-      const labels = monthlyRevenues.map(rev => `${rev.month}/${rev.year}`);
-      const dataPoints = monthlyRevenues.map(rev => rev.totalRevenue);
+    // Slice the array to get the last 12 entries after sorting
+    const lastTwelveMonthsData = monthlyRevenues.slice(-12);
 
-      this.renderChart(labels, dataPoints);
-    },
+    const monthNames = [
+      'January', 'February', 'March', 'April', 'May', 'June',
+      'July', 'August', 'September', 'October', 'November', 'December'
+    ];
+
+    // Map the sorted twelve months to their respective names and years
+    const labels = lastTwelveMonthsData.map(rev => {
+      const monthName = monthNames[rev.month - 1];
+      return `${monthName} ${rev.year}`;
+    });
+
+    const dataPoints = lastTwelveMonthsData.map(rev => rev.totalRevenue);
+
+    // Calculate the total revenue for the last 12 months
+    const totalRevenueLastTwelveMonths = dataPoints.reduce((acc, value) => acc + value, 0);
+
+    // Update a new data property if you want to display this total on your page
+    this.totalRevenueLastTwelveMonths = totalRevenueLastTwelveMonths;
+
+    this.renderChart(labels, dataPoints);
+  },
+    
 
     renderChart(labels, dataPoints) {
       const ctx = this.$refs.canvas.getContext('2d');
-      new Chart(ctx, {
+
+      if (this.myChart) {
+        this.myChart.destroy(); // Destroy the previous instance if it exists
+      }
+
+      this.myChart = new Chart(ctx, {
         type: 'line',
         data: {
           labels: labels, 
@@ -99,21 +129,40 @@ export default {
             label: "Monthly Revenues",
             data: dataPoints,
             borderColor: 'rgb(75,192,192)',
+            backgroundColor: 'rgba(75,192,192)', 
             tension: 0.1
           }]
         },
         options: {
           responsive: true,
-          maintainAspectRatio: false
-        }
+          maintainAspectRatio: false,
+          scales: {
+            y: {
+              ticks: {
+                callback: function(value) {
+                  return '£' + value;
+                }
+              }
+            }
+          },
+          plugins: {
+            legend: {
+              onClick: null,
+              labels: {
+                usePointStyle: true, // Use point style instead of box
+                color: 'rgb(0,0,0)', // Text color
+                boxWidth: 10, // Box width
+                padding: 20    
+              }
+            }
+          }
+        },
+        
       });
     },
   }
 }
 </script>
-
-
-
 
 
 

@@ -7,14 +7,14 @@
    <div class="dashboard_content">
       <DashboardCard class="dashboard-card">
         <template v-slot:title>
-          <h2>Total Sales</h2>
+          <h2>Sales Information</h2>
         </template>
         <!-- Content for total Sales -->
         <SalesCard />
       </DashboardCard>
       <DashboardCard class="dashboard-card">
         <template v-slot:title>
-          <h2>Recent Transactions</h2>
+          <h2>Product Sales Information</h2>
         </template>
         <!-- Contnet for recent transactions -->
       </DashboardCard>
