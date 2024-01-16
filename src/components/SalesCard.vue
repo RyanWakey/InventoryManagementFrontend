@@ -2,7 +2,7 @@
   <div class="sales-dashboard-container">
     <div class="sales-info-container">
       <div class="sales-total">
-        <h2>Total sales sold: {{ totalSales }}</h2>
+        <h2>Total sales made: {{ totalSales }}</h2>
       </div>
       <div class="sales-revenue">
         <h2>All time revenue: £{{ totalRevenue }}</h2>
