@@ -9,6 +9,10 @@
             <ul><li v-for="product in topSellingProducts" :key="product.productName">
                 {{ product.productName }}: {{ product.quantitySold }} </li></ul>
         </div>
+        <div class="most-popular-category">
+            <h2>Most popular Category: {{ mostPopularCategory.name }}
+            with {{ mostPopularCategory.unitsSold }} units sold. </h2>
+        </div>
      </div>
     </div>
 </template>
@@ -19,12 +23,17 @@ export default {
     data() {
         return {
             totalProductsSold: 0,
-            topSellingProducts: 0
+            topSellingProducts: 0,
+            mostPopularCategory: {
+                name: '',
+                unitsSold: 0
+      }
         };
     },
     mounted() {
         this.fetchTotalProductsSold();
         this.fetchMostProductsSold();
+        this.fetchMostPopularCategoryAndUnitsSold();
     },
     methods: {
         fetchTotalProductsSold() {
@@ -55,7 +64,25 @@ export default {
                 this.topSellingProducts = data;
             })
             .catch(error => console.error('Error fetching top selling projects:', error));
-        }
+        },
+
+        fetchMostPopularCategoryAndUnitsSold() {
+         fetch("http://localhost:18080/sales/most-popular-category-units")
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+            })
+            .then(data => {
+                console.log('Most popular category data:', data);
+                this.mostPopularCategory.name = data.mostPopularCategory;
+                this.mostPopularCategory.unitsSold = data.unitsSold;
+            })
+            .catch(error => {
+                console.error('Error fetching most popular category and units sold:', error);
+            });
+},
     }
 }
 
@@ -76,7 +103,6 @@ export default {
   margin-left: 8px; /* Shift text to the right by 8px */
   font-size: 16px; 
 }
-
 
 .top-selling-products h2 {
     margin-left: 8px;
@@ -102,4 +128,12 @@ export default {
   margin-right: 8px; /* Adjust the margin as necessary */
 }
 
+
+.most-popular-category h2 {
+  color: #1b1b1b; 
+  margin: 0;
+  margin-top: 12px; 
+  margin-left: 8px; /* Shift text to the right by 8px */
+  font-size: 15px; 
+}
 </style>
