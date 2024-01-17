@@ -13,29 +13,45 @@
             <h2>Most popular Category: {{ mostPopularCategory.name }}
             with {{ mostPopularCategory.unitsSold }} units sold. </h2>
         </div>
+        <button @click="toggleChartType">Toggle Chart</button>
+        <div class="chart-container">
+            <canvas ref="chartCanvas"></canvas>
+        </div>
      </div>
     </div>
 </template>
 
 <script>
 
+import Chart from 'chart.js/auto';
+import { LineController, LineElement, PointElement, LinearScale, CategoryScale } from 'chart.js';
+
+// Register the line controller
+Chart.register(LineController, LineElement, PointElement, LinearScale, CategoryScale);
+
 export default {
     data() {
         return {
             totalProductsSold: 0,
-            topSellingProducts: 0,
+            topSellingProducts: [],
             mostPopularCategory: {
                 name: '',
                 unitsSold: 0
-      }
+            },
+            chartData: {},
+            currentChartType: 'revenue',
+            chartInstance: null,
         };
     },
     mounted() {
         this.fetchTotalProductsSold();
         this.fetchMostProductsSold();
         this.fetchMostPopularCategoryAndUnitsSold();
+
+        this.fetchChartData();
     },
     methods: {
+        
         fetchTotalProductsSold() {
             fetch("http://localhost:18080/sales/total-products-sold")
             .then(response => {
@@ -82,8 +98,74 @@ export default {
             .catch(error => {
                 console.error('Error fetching most popular category and units sold:', error);
             });
-},
-    }
+        },
+
+        fetchChartData() {
+            // Fetch both datasets
+            Promise.all([
+                fetch("http://localhost:18080/sales/revenue-by-category").then(res => res.json()),
+                fetch("http://localhost:18080/sales/units-sold-by-category").then(res => res.json())
+            ]).then(([revenueData, unitsSoldData]) => {
+                
+                console.log('Revenue Data:', revenueData);
+                console.log('Units Sold Data:', unitsSoldData);
+                this.chartData.revenue = this.prepareChartData(revenueData, 'Revenue by Category', 'rgba(255, 99, 132, 0.2)', 'rgba(255, 99, 132, 1)');
+                this.chartData.unitsSold = this.prepareChartData(unitsSoldData, 'Units Sold by Category', 'rgba(54, 162, 235, 0.2)', 'rgba(54, 162, 235, 1)');
+                console.log('Prepared Revenue Chart Data:', this.chartData.revenue);
+                console.log('Prepared Units Sold Chart Data:', this.chartData.unitsSold);
+                this.renderChart(this.currentChartType);
+                
+            }).catch(error => {
+                console.error('Error fetching chart data:', error);
+            });
+        },
+
+        prepareChartData(data, label, backgroundColor, borderColor) {
+            // Assuming your data object has a nested structure based on your log
+            const categories = Object.keys(data.revenueByCategory || data.unitsSoldByCategory);
+            const values = Object.values(data.revenueByCategory || data.unitsSoldByCategory);
+
+            return {
+                labels: categories,
+                datasets: [{
+                    label: label,
+                    data: values,
+                    backgroundColor: backgroundColor,
+                    borderColor: borderColor,
+                    borderWidth: 1
+                }]
+            };
+        },
+
+
+        renderChart(chartType) {
+            const context = this.$refs.chartCanvas.getContext('2d');
+            
+            if (this.chartInstance) {
+                this.chartInstance.destroy();        
+            }
+
+            this.chartInstance = new Chart(context, {
+                type: 'bar',
+                data: this.chartData[chartType],
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    },
+                responsive: true,
+                maintainAspectRatio: false
+                }
+            });
+        },
+
+        toggleChartType() {
+            this.currentChartType = this.currentChartType === 'revenue' ? 'unitsSold' : 'revenue';
+            this.renderChart(this.currentChartType);
+        },
+        
+    }, 
 }
 
 </script>
@@ -136,4 +218,8 @@ export default {
   margin-left: 8px; /* Shift text to the right by 8px */
   font-size: 15px; 
 }
+
+
+
+
 </style>
