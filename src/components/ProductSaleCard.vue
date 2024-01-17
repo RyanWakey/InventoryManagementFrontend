@@ -29,6 +29,8 @@ import { LineController, LineElement, PointElement, LinearScale, CategoryScale }
 // Register the line controller
 Chart.register(LineController, LineElement, PointElement, LinearScale, CategoryScale);
 
+let chartInstance = null; 
+
 export default {
     data() {
         return {
@@ -40,7 +42,6 @@ export default {
             },
             chartData: {},
             currentChartType: 'revenue',
-            chartInstance: null,
         };
     },
     mounted() {
@@ -49,6 +50,7 @@ export default {
         this.fetchMostPopularCategoryAndUnitsSold();
 
         this.fetchChartData();
+        this.renderChart();
     },
     methods: {
         
@@ -106,13 +108,8 @@ export default {
                 fetch("http://localhost:18080/sales/revenue-by-category").then(res => res.json()),
                 fetch("http://localhost:18080/sales/units-sold-by-category").then(res => res.json())
             ]).then(([revenueData, unitsSoldData]) => {
-                
-                console.log('Revenue Data:', revenueData);
-                console.log('Units Sold Data:', unitsSoldData);
                 this.chartData.revenue = this.prepareChartData(revenueData, 'Revenue by Category', 'rgba(255, 99, 132, 0.2)', 'rgba(255, 99, 132, 1)');
                 this.chartData.unitsSold = this.prepareChartData(unitsSoldData, 'Units Sold by Category', 'rgba(54, 162, 235, 0.2)', 'rgba(54, 162, 235, 1)');
-                console.log('Prepared Revenue Chart Data:', this.chartData.revenue);
-                console.log('Prepared Units Sold Chart Data:', this.chartData.unitsSold);
                 this.renderChart(this.currentChartType);
                 
             }).catch(error => {
@@ -139,30 +136,46 @@ export default {
 
 
         renderChart(chartType) {
-            const context = this.$refs.chartCanvas.getContext('2d');
             
-            if (this.chartInstance) {
-                this.chartInstance.destroy();        
+            if (this.$refs.chartCanvas) {
+                const context = this.$refs.chartCanvas.getContext('2d');
+            
+                if (chartInstance) {
+                    chartInstance.destroy();        
+                }
+
+                chartInstance = new Chart(context, {
+                    type: 'bar',
+                    data: this.chartData[chartType],
+                    options: {
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                        },
+                    responsive: true,
+                    maintainAspectRatio: false
+                    }
+                });
+
+            } else {
+                console.error('Canvas element is not available');
             }
 
-            this.chartInstance = new Chart(context, {
-                type: 'bar',
-                data: this.chartData[chartType],
-                options: {
-                    scales: {
-                        y: {
-                            beginAtZero: true
-                        }
-                    },
-                responsive: true,
-                maintainAspectRatio: false
-                }
-            });
         },
 
         toggleChartType() {
             this.currentChartType = this.currentChartType === 'revenue' ? 'unitsSold' : 'revenue';
-            this.renderChart(this.currentChartType);
+            // Wait until Vue has updated the DOM
+            this.$nextTick(() => {
+                this.renderChart(this.currentChartType);
+            });
+        },
+
+        beforeUnmount() {
+            if (chartInstance) {
+                chartInstance.destroy();
+            }
         },
         
     }, 
