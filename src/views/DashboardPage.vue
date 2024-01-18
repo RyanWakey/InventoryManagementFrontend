@@ -52,6 +52,7 @@ export default {
   justify-content: center; /* Center the cards container */
   flex-wrap: wrap; /* Allows cards to wrap onto the next line on small screens */
   gap: 20px; /* Adjust the gap between cards */
+  align-items: flex-start;
 }
 
 .sales-dashboard-card {

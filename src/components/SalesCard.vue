@@ -167,6 +167,12 @@ export default {
 
 <style scoped>
 
+.sales-info-container {
+  display: flex;
+  justify-content: space-between; /* This will place the child elements on opposite ends */
+  align-items: center; /* This will vertically align them in the center */ 
+}
+
 .sales-total {
   background-color: #f0f0f0; 
   padding: 16px;
@@ -191,12 +197,6 @@ export default {
   margin: 0;
   margin-left: 8px; /* Shift text to the right by 8px */
   font-size: 16px; 
-}
-
-.sales-info-container {
-  display: flex;
-  justify-content: space-between; /* This will place the child elements on opposite ends */
-  align-items: center; /* This will vertically align them in the center */ 
 }
 
 .sales-revenue-chart {
