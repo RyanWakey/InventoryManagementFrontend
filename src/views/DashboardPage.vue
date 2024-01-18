@@ -1,44 +1,49 @@
 <!-- Dashboard.vue -->
 <template>
   <div class="dashboard">
-   <div class="dashboard-header">
-    <h1>Dashboard</h1>
-   </div>
-   <div class="dashboard_content">
-    <div class="row">
-      <DashboardCard class="sales-dashboard-card">
-        <template v-slot:title>
-          <h2>Sales Information</h2>
-        </template>
-        <!-- Content for total Sales -->
-        <SalesCard />
-      </DashboardCard>
-      <DashboardCard class="product-sales-dashboard-card">
-        <template v-slot:title>
-          <h2>Product Sales Information</h2>
-        </template>
-        <!-- Contnet for recent transactions -->
-        <ProductSaleCard>
-        </ProductSaleCard>
-      </DashboardCard>
+    <div class="dashboard-header">
+      <h1>Dashboard</h1>
     </div>
-    <div class="row">
-    <DashboardCard class="transactions-dashboard-card">
-      <template v-slot:title>
-        <h2>Transactions Information</h2>
-      </template>
-      <TransactionsCard>
-      </TransactionsCard>
-    </DashboardCard>
-    <DashboardCard class="supplier-dashboard-card">
-      <template v-slot:title>
-          <h2>Supplier Information</h2>
-        </template>
-    </DashboardCard>
+    <div class="dashboard-grid">
+      <div class="grid-item sales-card">
+        <DashboardCard>
+          <template v-slot:title>
+            <h2>Sales Information</h2>
+          </template>
+          <SalesCard />
+        </DashboardCard>
+      </div>
+
+      <div class="grid-item transactions-card">
+        <DashboardCard>
+          <template v-slot:title>
+            <h2>Transactions Information</h2>
+          </template>
+          <TransactionsCard />
+        </DashboardCard>
+      </div>
+
+      <div class="grid-item product-sales-card">
+        <DashboardCard>
+          <template v-slot:title>
+            <h2>Product Sales Information</h2>
+          </template>
+          <ProductSaleCard />
+        </DashboardCard>
+      </div>
+
+      <div class="grid-item supplier-card">
+        <DashboardCard>
+          <template v-slot:title>
+            <h2>Supplier Information</h2>
+          </template>
+          <SupplierCard />
+        </DashboardCard>
+      </div>
     </div>
-   </div>
   </div>
 </template>
+
 
 <script>
 import DashboardCard from '@/components/DashboardCard.vue';
@@ -60,39 +65,33 @@ export default {
 <style scoped>
 .dashboard-header {
   text-align: center;
-  margin-bottom: 20px; /* Add some space below the dashboard header */
+  margin-bottom: 20px;
 }
 
-.dashboard_content {
-  display: flex;
-  justify-content: center; /* Center the cards container */
-  flex-wrap: wrap; /* Allows cards to wrap onto the next line on small screens */
-  gap: 20px; /* Adjust the gap between cards */
-  align-items: flex-start;
+/* Grid container styling */
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Adjust the min-width as needed */
+  grid-auto-rows: minmax(100px, auto); /* This sets a minimum height for each row */
+  gap: 20px; /* Space between the grid items */
+  justify-content: center; /* Center the grid items in the container */
 }
 
-.row {
-  display: flex;
-  justify-content: center; /* Center the row container */
-  flex-wrap: wrap; /* Allows cards to wrap onto the next line on small screens */
-  gap: 20px; /* Adjust the gap between cards */
-  width: 100%; /* Full width to encapsulate cards */
-  align-items: flex-start;
+/* Individual card styling */
+.grid-item {
+  border: 2px solid #08080896; /* Slightly darker border for visibility */
+  background: white;
+  border-radius: 6px;
+  padding: 16px;
 }
 
-.sales-dashboard-card {
-  width: 28%; /* Calculating width by subtracting the total margin */
-  margin: 10px; 
-  box-shadow: 0 2px 4px rgba(0,0,0,0,2); /* Simple box shadow for styling */
-  padding: 12px; /* Padding inside the cards */
-  background: white; /* Background color for the cards */
-  border-radius: 6px; /* Rounded corners for the cards */
-  border: 2px solid #00000081;
-} 
 
-.product-sales-dashboard-card {
-  width: 28%; /* Calculating width by subtracting the total margin */
-  margin: 10px; 
+/* Positioning */
+.sales-card {
+  grid-column: 1 / 2;
+  grid-row: 1;
+  width: 60%; /* Calculating width by subtracting the total margin */
+  margin-left: 350px;
   box-shadow: 0 2px 4px rgba(0,0,0,0,2); /* Simple box shadow for styling */
   padding: 12px; /* Padding inside the cards */
   background: white; /* Background color for the cards */
@@ -100,9 +99,11 @@ export default {
   border: 2px solid #00000081;
 }
 
-.transactions-dashboard-card {
-  width: 28%; /* Calculating width by subtracting the total margin */
-  margin: 10px; 
+.product-sales-card {
+  grid-column: 2 / 3;
+  grid-row: 1 / 3; /* Span two rows to accommodate the height */
+  width: 60%; /* Calculating width by subtracting the total margin */
+  margin-right: 350px;
   box-shadow: 0 2px 4px rgba(0,0,0,0,2); /* Simple box shadow for styling */
   padding: 12px; /* Padding inside the cards */
   background: white; /* Background color for the cards */
@@ -110,9 +111,11 @@ export default {
   border: 2px solid #00000081;
 }
 
-.product-sales-dashboard-card {
-  width: 28%; /* Calculating width by subtracting the total margin */
-  margin: 10px; 
+.transactions-card {
+  grid-column: 1 / 2;
+  grid-row: 2;
+  width: 60%; /* Calculating width by subtracting the total margin */
+  margin-left: 350px;
   box-shadow: 0 2px 4px rgba(0,0,0,0,2); /* Simple box shadow for styling */
   padding: 12px; /* Padding inside the cards */
   background: white; /* Background color for the cards */
@@ -120,9 +123,11 @@ export default {
   border: 2px solid #00000081;
 }
 
-.supplier-dashboard-card {
-  width: 28%; /* Calculating width by subtracting the total margin */
-  margin: 10px; 
+.supplier-card {
+  grid-column: 2 / 3;
+  grid-row: 3;
+  width: 60%; /* Calculating width by subtracting the total margin */
+  margin-right: 350px;
   box-shadow: 0 2px 4px rgba(0,0,0,0,2); /* Simple box shadow for styling */
   padding: 12px; /* Padding inside the cards */
   background: white; /* Background color for the cards */
@@ -130,9 +135,5 @@ export default {
   border: 2px solid #00000081;
 }
 
-
-h2 {
-  font-size: 21px;
-}
 
 </style>
