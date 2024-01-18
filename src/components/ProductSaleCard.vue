@@ -13,7 +13,10 @@
             <h2>Most popular Category: {{ mostPopularCategory.name }}
             with {{ mostPopularCategory.unitsSold }} units sold. </h2>
         </div>
-        <button @click="toggleChartType">Toggle Chart</button>
+        <div class="button-container">
+            <label for="toggle-chart">Switch Chart View:</label>
+            <button id="toggle-chart" @click="toggleChartType">Toggle Chart</button>
+        </div>
         <div class="chart-container">
             <canvas ref="chartCanvas"></canvas>
         </div>
@@ -136,33 +139,49 @@ export default {
 
 
         renderChart(chartType) {
-            
-            if (this.$refs.chartCanvas) {
-                const context = this.$refs.chartCanvas.getContext('2d');
-            
-                if (chartInstance) {
-                    chartInstance.destroy();        
-                }
+        if (this.$refs.chartCanvas) {
+            const context = this.$refs.chartCanvas.getContext('2d');
 
-                chartInstance = new Chart(context, {
-                    type: 'bar',
-                    data: this.chartData[chartType],
-                    options: {
-                        scales: {
-                            y: {
-                                beginAtZero: true
-                            }
-                        },
-                    responsive: true,
-                    maintainAspectRatio: false
-                    }
-                });
-
-            } else {
-                console.error('Canvas element is not available');
+            if (chartInstance) {
+                chartInstance.destroy();        
             }
 
-        },
+            // Define options for the chart
+            const options = {
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            callback: function(value) {
+                                // Only add the $ sign for the revenue chart
+                                if (chartType === 'revenue') {
+                                    return '$' + value;
+                                }
+                                return value;
+                            }
+                        }
+                    }
+                },
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        labels: {
+                            usePointStyle: true, // Use point style instead of box
+                        }
+                    }
+                },
+            };
+
+            chartInstance = new Chart(context, {
+                type: 'bar',
+                data: this.chartData[chartType],
+                options: options,
+            });
+        } else {
+            console.error('Canvas element is not available');
+        }
+    },
 
         toggleChartType() {
             this.currentChartType = this.currentChartType === 'revenue' ? 'unitsSold' : 'revenue';
@@ -232,7 +251,36 @@ export default {
   font-size: 15px; 
 }
 
+.chart-container {
+  height: 250px; /* Adjust height as needed */
+  width: 100%; /* Adjust width as needed */
+  margin-top: 20px; /* Move the chart down */
+}
 
+.button-container {
+  margin-left: 32px; /* Center align the button container */
+  margin-top: 20px; /* Space above the button container */
+}
+
+.button-container label {
+  margin-right: 10px; /* Space between the label and the button */
+  font-size: 16px; /* Adjust label font size as needed */
+}
+
+button {
+  padding: 10px 20px; /* Top/bottom and left/right padding */
+  border: none; /* Remove default border */
+  background-color: #19689c42; /* Button background color */
+  color: white; /* Button text color */
+  border-radius: 5px; /* Rounded corners */
+  cursor: pointer; /* Cursor to indicate it's clickable */
+  font-size: 16px; /* Text size */
+  transition: background-color 0.3s ease; /* Smooth background color transition on hover */
+}
+
+button:hover {
+  background-color: #2980b9; /* Darker shade on hover */
+}
 
 
 </style>

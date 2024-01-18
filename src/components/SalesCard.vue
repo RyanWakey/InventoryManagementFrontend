@@ -213,4 +213,8 @@ export default {
   }
 }
 
+.total-revenue-last-twelve-months {
+  margin-top: 15px;
+}
+
 </style>

@@ -5,14 +5,14 @@
     <h1>Dashboard</h1>
    </div>
    <div class="dashboard_content">
-      <DashboardCard class="dashboard-card">
+      <DashboardCard class="sales-dashboard-card">
         <template v-slot:title>
           <h2>Sales Information</h2>
         </template>
         <!-- Content for total Sales -->
         <SalesCard />
       </DashboardCard>
-      <DashboardCard class="dashboard-card">
+      <DashboardCard class="product-sales-dashboard-card">
         <template v-slot:title>
           <h2>Product Sales Information</h2>
         </template>
@@ -54,7 +54,7 @@ export default {
   gap: 20px; /* Adjust the gap between cards */
 }
 
-.dashboard-card {
+.sales-dashboard-card {
   width: 28%; /* Calculating width by subtracting the total margin */
   margin: 10px; 
   box-shadow: 0 2px 4px rgba(0,0,0,0,2); /* Simple box shadow for styling */
@@ -63,6 +63,18 @@ export default {
   border-radius: 6px; /* Rounded corners for the cards */
   border: 2px solid #00000081;
 } 
+
+.product-sales-dashboard-card {
+    width: 28%; /* Calculating width by subtracting the total margin */
+  margin: 10px; 
+  box-shadow: 0 2px 4px rgba(0,0,0,0,2); /* Simple box shadow for styling */
+  padding: 12px; /* Padding inside the cards */
+  background: white; /* Background color for the cards */
+  border-radius: 6px; /* Rounded corners for the cards */
+  border: 2px solid #00000081;
+}
+
+
 
 h2 {
   font-size: 21px;
