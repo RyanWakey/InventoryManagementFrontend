@@ -5,6 +5,7 @@
     <h1>Dashboard</h1>
    </div>
    <div class="dashboard_content">
+    <div class="row">
       <DashboardCard class="sales-dashboard-card">
         <template v-slot:title>
           <h2>Sales Information</h2>
@@ -18,10 +19,23 @@
         </template>
         <!-- Contnet for recent transactions -->
         <ProductSaleCard>
-
         </ProductSaleCard>
       </DashboardCard>
-      <!-- Add the rest here --> 
+    </div>
+    <div class="row">
+    <DashboardCard class="transactions-dashboard-card">
+      <template v-slot:title>
+        <h2>Transactions Information</h2>
+      </template>
+      <TransactionsCard>
+      </TransactionsCard>
+    </DashboardCard>
+    <DashboardCard class="supplier-dashboard-card">
+      <template v-slot:title>
+          <h2>Supplier Information</h2>
+        </template>
+    </DashboardCard>
+    </div>
    </div>
   </div>
 </template>
@@ -30,13 +44,15 @@
 import DashboardCard from '@/components/DashboardCard.vue';
 import SalesCard from '@/components/SalesCard.vue';
 import ProductSaleCard from '@/components/ProductSaleCard.vue'
+import TransactionsCard from '@/components/TransactionsCard.vue'
 
 export default {
   name: 'DashboardHome',
   components: {
     DashboardCard,
     SalesCard,
-    ProductSaleCard
+    ProductSaleCard,
+    TransactionsCard
   }
 }
 </script>
@@ -55,6 +71,15 @@ export default {
   align-items: flex-start;
 }
 
+.row {
+  display: flex;
+  justify-content: center; /* Center the row container */
+  flex-wrap: wrap; /* Allows cards to wrap onto the next line on small screens */
+  gap: 20px; /* Adjust the gap between cards */
+  width: 100%; /* Full width to encapsulate cards */
+  align-items: flex-start;
+}
+
 .sales-dashboard-card {
   width: 28%; /* Calculating width by subtracting the total margin */
   margin: 10px; 
@@ -66,7 +91,7 @@ export default {
 } 
 
 .product-sales-dashboard-card {
-    width: 28%; /* Calculating width by subtracting the total margin */
+  width: 28%; /* Calculating width by subtracting the total margin */
   margin: 10px; 
   box-shadow: 0 2px 4px rgba(0,0,0,0,2); /* Simple box shadow for styling */
   padding: 12px; /* Padding inside the cards */
@@ -75,6 +100,35 @@ export default {
   border: 2px solid #00000081;
 }
 
+.transactions-dashboard-card {
+  width: 28%; /* Calculating width by subtracting the total margin */
+  margin: 10px; 
+  box-shadow: 0 2px 4px rgba(0,0,0,0,2); /* Simple box shadow for styling */
+  padding: 12px; /* Padding inside the cards */
+  background: white; /* Background color for the cards */
+  border-radius: 6px; /* Rounded corners for the cards */
+  border: 2px solid #00000081;
+}
+
+.product-sales-dashboard-card {
+  width: 28%; /* Calculating width by subtracting the total margin */
+  margin: 10px; 
+  box-shadow: 0 2px 4px rgba(0,0,0,0,2); /* Simple box shadow for styling */
+  padding: 12px; /* Padding inside the cards */
+  background: white; /* Background color for the cards */
+  border-radius: 6px; /* Rounded corners for the cards */
+  border: 2px solid #00000081;
+}
+
+.supplier-dashboard-card {
+  width: 28%; /* Calculating width by subtracting the total margin */
+  margin: 10px; 
+  box-shadow: 0 2px 4px rgba(0,0,0,0,2); /* Simple box shadow for styling */
+  padding: 12px; /* Padding inside the cards */
+  background: white; /* Background color for the cards */
+  border-radius: 6px; /* Rounded corners for the cards */
+  border: 2px solid #00000081;
+}
 
 
 h2 {
