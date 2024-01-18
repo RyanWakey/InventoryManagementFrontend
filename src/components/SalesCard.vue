@@ -40,7 +40,7 @@ export default {
   },
   methods: {
     fetchTotalSales() {
-    fetch("http://localhost:18080/sales/count")
+      fetch("http://localhost:18080/sales/count")
       .then(response => {
         if (!response.ok) {
           throw new Error('Network response was not ok');
