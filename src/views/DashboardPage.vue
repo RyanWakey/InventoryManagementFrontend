@@ -82,7 +82,7 @@ export default {
   border: 2px solid #08080896; /* Slightly darker border for visibility */
   background: white;
   border-radius: 6px;
-  padding: 16px;
+  padding: 12px;
 }
 
 
@@ -90,49 +90,27 @@ export default {
 .sales-card {
   grid-column: 1 / 2;
   grid-row: 1;
-  width: 60%; /* Calculating width by subtracting the total margin */
   margin-left: 350px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0,2); /* Simple box shadow for styling */
-  padding: 12px; /* Padding inside the cards */
-  background: white; /* Background color for the cards */
-  border-radius: 6px; /* Rounded corners for the cards */
-  border: 2px solid #00000081;
 }
 
 .product-sales-card {
   grid-column: 2 / 3;
   grid-row: 1 / 3; /* Span two rows to accommodate the height */
-  width: 60%; /* Calculating width by subtracting the total margin */
   margin-right: 350px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0,2); /* Simple box shadow for styling */
-  padding: 12px; /* Padding inside the cards */
-  background: white; /* Background color for the cards */
-  border-radius: 6px; /* Rounded corners for the cards */
-  border: 2px solid #00000081;
+  height: 650px;
 }
 
 .transactions-card {
   grid-column: 1 / 2;
   grid-row: 2;
-  width: 60%; /* Calculating width by subtracting the total margin */
   margin-left: 350px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0,2); /* Simple box shadow for styling */
-  padding: 12px; /* Padding inside the cards */
-  background: white; /* Background color for the cards */
-  border-radius: 6px; /* Rounded corners for the cards */
-  border: 2px solid #00000081;
 }
 
 .supplier-card {
   grid-column: 2 / 3;
-  grid-row: 3;
-  width: 60%; /* Calculating width by subtracting the total margin */
+  grid-row: 2 ;
   margin-right: 350px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0,2); /* Simple box shadow for styling */
-  padding: 12px; /* Padding inside the cards */
-  background: white; /* Background color for the cards */
-  border-radius: 6px; /* Rounded corners for the cards */
-  border: 2px solid #00000081;
+  margin-top: 160px;
 }
 
 
