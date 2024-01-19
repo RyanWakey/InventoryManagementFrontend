@@ -3,7 +3,15 @@
         <div class="transactions-info-container">
             <div class="transactions-total"> 
                 <h2>Total Transactions made: {{ TransactionCount }}</h2>
-            </div>      
+            </div>    
+            <div class="transactions-type">
+                <h2>Overview of type of transactions made: </h2>
+            </div> 
+            <ul>
+            <li v-for="(count, type) in transactionCountsByType" :key="type">
+                {{ type }}: {{ count }}
+            </li>
+            </ul> 
         </div>
     </div>
   </template>
@@ -14,11 +22,13 @@
 export default {
     data() {
     return {
-        TransactionCount: 0
+        TransactionCount: 0,
+        transactionCountsByType: {}
     };
   },
   mounted() {
     this.fetchTransactionsCount();
+    this.fetchTransactionCountsByType();
   },
   methods: {
     fetchTransactionsCount() {
@@ -35,6 +45,15 @@ export default {
         })
         .catch(error => console.error('Error fetching total sales:', error));
     },
+    fetchTransactionCountsByType() {
+      
+      fetch("http://localhost:18080/transactions/count-by-type")
+        .then(response => response.json())
+        .then(data => {
+          this.transactionCountsByType = data;
+        })
+        .catch(error => console.error('Error fetching transaction counts:', error));
+    }
   }
 }
 
@@ -47,5 +66,16 @@ export default {
     font-size: 16px;
 }
 
+.transactions-type h2 {
+    font-size: 16px;
+}
+
+ul li {
+  margin-bottom: 12px; 
+}
+
+ul li:last-child {
+  margin-bottom: 0; /* Removes the margin from the last item to prevent extra space at the end of the list */
+}
 
 </style>
