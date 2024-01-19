@@ -64,6 +64,8 @@ export default {
 
 .transactions-total h2 {
     font-size: 16px;
+    margin-left: 12px;
+    padding: 8px;
 }
 
 .transactions-type h2 {
