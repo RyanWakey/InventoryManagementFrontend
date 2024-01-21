@@ -180,7 +180,7 @@ export default {
 }
 
 .sales-total h2 {
-  color: #1b1b1b; 
+  color: #1b1b1bd5; 
   margin: 0;
   margin-left: 8px; 
   font-size: 16px; 
@@ -193,7 +193,7 @@ export default {
 }
 
 .sales-revenue h2 {
-  color: #1b1b1b; 
+  color: #1b1b1bd3; 
   margin: 0;
   margin-left: 8px; /* Shift text to the right by 8px */
   font-size: 16px; 

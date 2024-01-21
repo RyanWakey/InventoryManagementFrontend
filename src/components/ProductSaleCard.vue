@@ -220,7 +220,8 @@ export default {
 
 .top-selling-products h2 {
     margin-left: 8px;
-    font-size: 16px;      
+    font-size: 16px;
+    color: #1b1b1b;      
 }
 
 .top-selling-products ul {
