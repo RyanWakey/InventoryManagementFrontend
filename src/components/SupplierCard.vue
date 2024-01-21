@@ -1,22 +1,29 @@
 <template>
     <div class="card">
         <div class="card-header">
+            <h2> Total active suppliers: {{  activeSuppliers }}</h2>
+        </div>
+        <div class="card-header-purchase-order">
             <h2>Recent Purchase Orders</h2>
         </div>
         <div class="card-body">
             <ul class="purchase-orders-list">
                 <li v-for="order in purchaseOrders" :key="order.orderId" class="purchase-order-item">
+                    <h3 class="order-id-title">Order ID: {{ order.orderId }}</h3>
                     <div class="order-details">
-                        <h3>Order ID: {{ order.orderId }}</h3>
-                        <p><strong>Supplier:</strong> {{ order.supplierName }}</p>
-                        <p><strong>Order Date:</strong> {{ order.orderDate }}</p>
-                        <p><strong>Expected Delivery:</strong> {{ order.expectedDeliveryDate }}</p>
-                        <p><strong>Status:</strong> <span :class="`status-${order.orderStatus.toLowerCase()}`">{{ order.orderStatus }}</span></p>
+                        <div class="order-info">
+                            <p><strong>Supplier:</strong> {{ order.supplierName }}</p>
+                            <p><strong>Order Date:</strong> {{ order.orderDate }}</p>
+                        </div>
+                        <div class="order-info">
+                            <p><strong>Expected Delivery:</strong> {{ order.expectedDeliveryDate }}</p>
+                            <p><strong>Status:</strong> <span :class="`status-${order.orderStatus.toLowerCase()}`">{{ order.orderStatus }}</span></p>
+                        </div>
                     </div>
                 </li>
             </ul>
         </div>
-    </div>  
+    </div>
 </template>
 
 
@@ -57,39 +64,43 @@ export default {
 
 
 <style scoped>
-.card {
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    padding: 20px;
-    margin: 20px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+
+.card-header {
+    font-size: 10px;
+    margin-left: 30px;
 }
 
-.card-header h2 {
-    margin: 0 0 10px;
+.card-header-purchase-order {
+    margin-left: 5px;
+    font-size: 13px;
+}
+.card-body {
+    margin-left: 10px;
 }
 
 .purchase-orders-list {
-    list-style: none;
+    list-style-type: none;
     padding: 0;
     margin: 0;
 }
 
 .purchase-order-item {
-    border-bottom: 1px solid #eee;
-    padding: 10px 0;
+    margin-bottom: 10px; /* Adjust space between rows */
 }
 
-.purchase-order-item:last-child {
-    border-bottom: none;
+.order-id-title {
+    margin-bottom: 5px; /* Space between title and details */
+    font-size: 1.1em; /* Make title stand out */
 }
 
-.order-details h3 {
-    margin-top: 0;
+.order-details {
+    display: flex;
+    justify-content: space-between;
 }
 
-.status-pending {
-    color: orange;
+.order-info {
+    width: 48%; /* Adjust width for two columns */
+    font-size: 0.8em; /* Adjust font size */
 }
 
 .status-completed {
@@ -97,11 +108,16 @@ export default {
 }
 
 .status-shipped {
-    color: dodgerblue;
+    color: blue;
+}
+
+.status-pending {
+    color: orange;
 }
 
 .status-cancelled {
     color: red;
 }
 
+/* Add additional status styles as necessary */
 </style>
