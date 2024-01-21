@@ -175,20 +175,20 @@ export default {
 
 .sales-total {
   background-color: #f0f0f0; 
-  padding: 16px;
+  padding: 8px;
   border-radius: 8px;
 }
 
 .sales-total h2 {
   color: #1b1b1b; 
   margin: 0;
-  margin-left: 8px; /* Shift text to the right by 8px */
+  margin-left: 8px; 
   font-size: 16px; 
 }
 
 .sales-revenue {
   background-color: #f0f0f0;
-  padding: 16px;
+  padding: 8px;
   border-radius: 8px;
 }
 

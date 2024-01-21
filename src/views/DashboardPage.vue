@@ -88,7 +88,6 @@ export default {
 }
 
 
-/* Positioning */
 .sales-card {
   grid-column: 1 / 2;
   grid-row: 1;

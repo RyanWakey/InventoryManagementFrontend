@@ -207,7 +207,7 @@ export default {
 
 .product-sales-total {
   background-color: #f0f0f0; 
-  padding: 16px;
+  padding: 8px;
   border-radius: 8px;
 }
 
