@@ -106,6 +106,7 @@ export default {
   grid-column: 1 / 2;
   grid-row: 2;
   margin-left: 350px;
+  height: 300px;
 }
 
 .supplier-card {
