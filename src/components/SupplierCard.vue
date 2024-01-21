@@ -29,21 +29,36 @@
 
 <script>
 
-import axios from 'axios'; // Make sure to install axios if you haven't already
+import axios from 'axios'; 
 
 export default {
   name: 'PurchaseOrdersCard',
   data() {
     return {
-      purchaseOrders: [], // This will hold your purchase orders data
+      activeSuppliers: 0,
+      purchaseOrders: [], 
       isLoading: false, // Indicates if the data is being loaded
       error: null, // Holds any error information
     };
   },
   created() {
-    this.fetchPurchaseOrders(); // Fetch purchase orders when the component is created
+    this.fetchActiveSuppliers();
+    this.fetchPurchaseOrders(); 
   },
+
   methods: {
+    async fetchActiveSuppliers() {
+      this.isLoading = true; // Start loading
+      try {
+        const response = await axios.get('http://localhost:18080/supplier/active-suppliers');
+        this.activeSuppliers = response.data.activeSuppliers; // Set the active suppliers count
+        this.isLoading = false; // Stop loading
+      } catch (error) {
+        this.error = error; // Set the error data property
+        this.isLoading = false; // Stop loading
+        console.error('There was an error fetching the active suppliers:', error);
+      }
+    },
     async fetchPurchaseOrders() {
       this.isLoading = true; // Start loading
       try {
@@ -62,7 +77,6 @@ export default {
 </script>
 
 
-
 <style scoped>
 
 .card-header {
@@ -73,6 +87,7 @@ export default {
 .card-header-purchase-order {
     margin-left: 5px;
     font-size: 13px;
+    color: #1b1b1b; 
 }
 .card-body {
     margin-left: 10px;
