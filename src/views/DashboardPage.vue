@@ -50,6 +50,7 @@ import DashboardCard from '@/components/DashboardCard.vue';
 import SalesCard from '@/components/SalesCard.vue';
 import ProductSaleCard from '@/components/ProductSaleCard.vue'
 import TransactionsCard from '@/components/TransactionsCard.vue'
+import SupplierCard from '@/components/SupplierCard.vue'
 
 export default {
   name: 'DashboardHome',
@@ -57,7 +58,8 @@ export default {
     DashboardCard,
     SalesCard,
     ProductSaleCard,
-    TransactionsCard
+    TransactionsCard,
+    SupplierCard
   }
 }
 </script>
