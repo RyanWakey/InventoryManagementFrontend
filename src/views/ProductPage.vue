@@ -1,11 +1,7 @@
 <template>
-  <div class="business-page">
-    <div class="page-header">
-      <h1>Products and Services</h1>
-      <button class="new-item-btn">+ New Item</button>
-    </div>
-    
-    <div class="products-table">
+  <div class="products-services">
+    <h1>Products and Services</h1>
+    <div class="table-container">
       <table>
         <thead>
           <tr>
@@ -17,61 +13,34 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="product in products" :key="product.id">
-            <td>{{ product.code }}</td>
-            <td>{{ product.name }}</td>
-            <td>{{ product.costPrice }}</td>
-            <td>{{ product.salePrice }}</td>
-            <td>{{ product.quantity }}</td>
-          </tr>
+          <!-- Table rows will be inserted here -->
         </tbody>
       </table>
     </div>
+    <button class="new-item-btn">+ New Item</button>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'BusinessPage',
-  data() {
-    return {
-      products: [
-        // Populate this array with your products data
-      ],
-    };
-  },
-  methods: {
-    addNewProduct() {
-      // Logic to add a new product
-    },
-  },
+  name: 'ProductsServices',
+  // Your component's data and methods will go here
 };
 </script>
 
 <style scoped>
-.business-page {
+.products-services {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   padding: 20px;
 }
 
-.page-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.new-item-btn {
-  padding: 10px 20px;
-  background-color: #3498db;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.products-table {
-  margin-top: 20px;
-  overflow-y: auto;
-  height: 300px; /* Set a fixed height to make table scrollable */
+.table-container {
+  width: 100%;
+  max-width: 800px; /* Adjust this value to match the desired width */
+  overflow-x: auto; /* Allows table to scroll on small screens */
+  margin-bottom: 20px;
 }
 
 table {
@@ -82,14 +51,23 @@ table {
 th, td {
   text-align: left;
   padding: 8px;
-  border-bottom: 1px solid #ddd;
 }
 
-thead {
+th {
   background-color: #f2f2f2;
 }
 
-tr:hover {
-  background-color: #f5f5f5;
+.new-item-btn {
+  align-self: flex-end;
+  padding: 10px 20px;
+  margin-top: 10px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.new-item-btn:hover {
+  background-color: #45a049;
 }
 </style>
