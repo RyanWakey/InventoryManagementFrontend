@@ -105,7 +105,7 @@ export default {
 
 .order-id-title {
     margin-bottom: 5px; /* Space between title and details */
-    font-size: 1.1em; /* Make title stand out */
+    font-size: 1.06em; /* Make title stand out */
 }
 
 .order-details {

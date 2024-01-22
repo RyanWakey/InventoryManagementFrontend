@@ -61,11 +61,6 @@ export default {
 .card-body {
     padding: 5px;
 }
-.low-stock-products-list {
 
-}
-.low-stock-product-item {
-
-}
 
 </style>

@@ -124,6 +124,7 @@ export default {
   grid-row: 2 / 3;
   margin-right: 350px;
   margin-top: 170px;
+  height: 650px;
 }
 
 
@@ -132,6 +133,7 @@ export default {
   grid-row: 2 / 3;
   margin-left: 350px;
   margin-top: 350px;
+  height: 490px;
 }
 
 </style>
