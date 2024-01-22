@@ -9,7 +9,7 @@
       <!-- Navigation links -->
       <div class="navbar-menu">
         <router-link to="/" class="navbar-item">Dashboard</router-link>
-        <router-link to="/business" class="navbar-item">Business</router-link>
+        <router-link to="/products" class="navbar-item">Business</router-link>
         <router-link to="/accounting" class="navbar-item">Accounting</router-link>
         <!-- More links as needed -->
       </div>
