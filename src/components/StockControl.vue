@@ -40,7 +40,7 @@ export default {
             this.isLoading = true;
             try {
                 const response = await axios.get('http://localhost:18080/products/low-stock');
-                this.lowStockProducts = response.data.lowStockProducts || [];
+                this.lowStockProducts = response.data; // Since the response is an array already
                 this.isLoading = false;
             } catch (error) {
                 this.error = error;

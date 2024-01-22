@@ -115,7 +115,7 @@ export default {
 
 .order-info {
     width: 48%; /* Adjust width for two columns */
-    font-size: 0.8em; /* Adjust font size */
+    font-size: 0.9em; /* Adjust font size */
 }
 
 .status-completed {
