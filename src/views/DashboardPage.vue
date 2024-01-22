@@ -55,12 +55,12 @@
 
 
 <script>
-import DashboardCard from '@/components/DashboardCard.vue';
-import SalesCard from '@/components/SalesCard.vue';
-import ProductSaleCard from '@/components/ProductSaleCard.vue'
-import TransactionsCard from '@/components/TransactionsCard.vue'
-import SupplierCard from '@/components/SupplierCard.vue'
-import StockControlCard from '@/components/StockControl.vue'
+import DashboardCard from '@/components/DashboardRelated/DashboardCard.vue'
+import SalesCard from '@/components/DashboardRelated/SalesCard.vue';
+import ProductSaleCard from '@/components/DashboardRelated/ProductSaleCard.vue'
+import TransactionsCard from '@/components/DashboardRelated/TransactionsCard.vue'
+import SupplierCard from '@/components/DashboardRelated/SupplierCard.vue'
+import StockControlCard from '@/components/DashboardRelated/StockControlCard.vue'
 
 export default {
   name: 'DashboardHome',
