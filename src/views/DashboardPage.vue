@@ -40,6 +40,15 @@
           <SupplierCard />
         </DashboardCard>
       </div>
+
+      <div class="grid-item stock-control-card">
+        <DashboardCard>
+          <template v-slot:title>
+            <h2>Stock Control Information</h2>
+          </template>
+          <StockControlCard />
+        </DashboardCard>
+      </div>
     </div>
   </div>
 </template>
@@ -51,6 +60,7 @@ import SalesCard from '@/components/SalesCard.vue';
 import ProductSaleCard from '@/components/ProductSaleCard.vue'
 import TransactionsCard from '@/components/TransactionsCard.vue'
 import SupplierCard from '@/components/SupplierCard.vue'
+import StockControlCard from '@/components/StockControl.vue'
 
 export default {
   name: 'DashboardHome',
@@ -59,7 +69,8 @@ export default {
     SalesCard,
     ProductSaleCard,
     TransactionsCard,
-    SupplierCard
+    SupplierCard,
+    StockControlCard
   }
 }
 </script>
@@ -73,7 +84,7 @@ export default {
 /* Grid container styling */
 .dashboard-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Adjust the min-width as needed */
+  grid-template-columns: repeat(2, 1fr); /* Adjust the min-width as needed */
   grid-auto-rows: minmax(100px, auto); /* This sets a minimum height for each row */
   gap: 20px; /* Space between the grid items */
   justify-content: center; /* Center the grid items in the container */
@@ -90,30 +101,37 @@ export default {
 
 .sales-card {
   grid-column: 1 / 2;
-  grid-row: 1;
+  grid-row: 1 / 2;
   margin-left: 350px;
 }
 
 .product-sales-card {
   grid-column: 2 / 3;
-  grid-row: 1 / 3; /* Span two rows to accommodate the height */
+  grid-row: 1 / 3; 
   margin-right: 350px;
   height: 650px;
 }
 
 .transactions-card {
   grid-column: 1 / 2;
-  grid-row: 2;
+  grid-row: 2 / 3;
   margin-left: 350px;
   height: 300px;
 }
 
 .supplier-card {
   grid-column: 2 / 3;
-  grid-row: 2 ;
+  grid-row: 2 / 3;
   margin-right: 350px;
-  margin-top: 160px;
+  margin-top: 170px;
 }
 
+
+.stock-control-card {
+  grid-column: 1 / 2;
+  grid-row: 2 / 3;
+  margin-left: 350px;
+  margin-top: 350px;
+}
 
 </style>
