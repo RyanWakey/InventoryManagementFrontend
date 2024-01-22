@@ -1,7 +1,7 @@
 <template>
     <div class="card">
         <div class="card-header">
-            <h2>Stock Control</h2>
+            <h2>Products that need restocking (if any):</h2>
         </div>
         <div class="card-body">
             <div v-if="lowStockProducts.length > 0">
@@ -55,10 +55,11 @@ export default {
 <style scoped>
 
 .card-header {
-
+    font-size: 12px;
+    padding: 4px;
 }
 .card-body {
-
+    padding: 5px;
 }
 .low-stock-products-list {
 
