@@ -11,8 +11,8 @@
       <table>
         <thead>
           <tr>
-            <th class="item-code">Item Code</th>
-            <th class="item-name">Item Name</th>
+            <th class="item-code-header">Product Code</th>
+            <th class="item-name">Product Name</th>
             <th class="cost-price">Cost Price</th>
             <th class="sale-price">Sale Price</th>
             <th class="quantity">Quantity</th>
@@ -22,8 +22,8 @@
           <tr v-for="product in products" :key="product.ProductID">
             <td class="item-code">{{ product.ProductID }}</td>
             <td class="item-name">{{ product.Name }}</td>
-            <td class="cost-price">{{ product.Cost }}</td>
-            <td class="sale-price">{{ product.Price }}</td>
+            <td class="cost-price">£{{ product.Cost }}</td>
+            <td class="sale-price">£{{ product.Price }}</td>
             <td class="quantity">{{ product.StockQuantity }}</td>
           </tr>
         </tbody>
@@ -71,15 +71,27 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 20px;
+  padding: 10px;
+}
+
+.products-services h1{
+  background-color: #cecbcb1a; /* A light grey background for the header */
+  width: 150%;
+  text-align: center;
+  padding: 10px 0; 
+  box-shadow: 1px 4px 4px rgb(250, 248, 248); /* Optional: adds a shadow for depth */
+  margin-bottom: 20px; /* Adds space below the header */
+  border-bottom: 2px solid #e0e0e0; /* A solid line below the header */
+  margin-right: 700px;
 }
 
 .table-container {
   width: 100%;
-  max-width: 800px; /* Adjust this value to match the desired width */
+  max-width: 1000px; /* Adjust this value to match the desired width */
   overflow-x: auto; /* Allows table to scroll on small screens */
-  margin-bottom: 20px;
-  border: 2px solid #000; /* Solid border around the table */
+  margin-top: 60px;
+  border: 1px solid #0000002a; /* Solid border around the table */
+  padding: 30px;
 }
 
 .table-header {
@@ -91,8 +103,9 @@ export default {
 
 input[type="text"] {
   width: 70%;
-  padding: 8px;
+  padding: 12px;
   margin-right: 10px;
+  margin-bottom: 10px;
   border: 1px solid #ddd;
   border-radius: 4px;
 }
@@ -100,20 +113,19 @@ input[type="text"] {
 table {
   width: 100%;
   border-collapse: collapse;
-  table-layout: fixed; /* Helps to ensure uniform column sizing */
+  table-layout: fixed; 
 }
 
-
 th, td {
-  text-align: center;
-  padding: 12px;
+  text-align: left;
+  padding:  16px 1px 16px 12px; /* top, right, bottom, left */
   border-bottom: 1px solid #ddd; /* Horizontal lines between rows */
 }
 
 th {
   background-color: #f4f4f4;
   position: relative;
-  padding: 4px;
+  padding: 12px;
 }
 
 th::after {
@@ -134,7 +146,7 @@ th.item-code, td.item-code {
 }
 
 th.item-name, td.item-name {
-  width: 50%; /* Adjust the width as needed */
+  text-align: center; 
 }
 
 th.cost-price, td.cost-price,
@@ -155,12 +167,22 @@ thead, tbody tr {
 
 tbody {
   display: block;
-  max-height: 500px; 
+  max-height: 600px; 
   overflow-y: auto;
 }
 
 tbody tr:hover {
   background-color: #f0f0f0;
+}
+
+.item-code {
+  text-decoration: underline;
+  color: #1a73e8; 
+  cursor: pointer;
+}
+
+.item-code-header {
+  width: 15%;
 }
 
 .new-item-btn {
