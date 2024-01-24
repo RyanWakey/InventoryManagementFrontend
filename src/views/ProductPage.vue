@@ -5,7 +5,7 @@
       <!-- Table search and button -->
       <div class="table-header">
         <input type="text" placeholder="Search..." v-model="searchQuery" @input="filterTable">
-        <button class="new-item-btn">+ New Item</button>
+        <button class="new-item-btn">+ Add Product</button>
       </div>
       <!-- Products table -->
       <table>
@@ -187,7 +187,7 @@ tbody tr:hover {
 
 .new-item-btn {
   padding: 10px 20px;
-  background-color: #4CAF50;
+  background-color: #077777;
   color: white;
   border: none;
   cursor: pointer;
