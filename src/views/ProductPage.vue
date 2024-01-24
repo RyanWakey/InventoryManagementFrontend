@@ -20,7 +20,7 @@
         </thead>
         <tbody>
           <tr v-for="product in products" :key="product.ProductID">
-            <td class="item-code">{{ product.ProductID }}</td>
+            <td class="item-code" @click="openModal(product)">{{ product.ProductID }}</td>
             <td class="item-name">{{ product.Name }}</td>
             <td class="cost-price">£{{ product.Cost }}</td>
             <td class="sale-price">£{{ product.Price }}</td>
@@ -30,16 +30,29 @@
       </table>
     </div>
   </div>
+
+   <!-- Product Details Modal -->
+   <ProductDetailsModal
+    :productDetails="selectedProduct"
+    :visible="showModal"
+    @close="showModal = false"
+  />
 </template>
 
 <script>
 import axios from 'axios';
+import ProductDetailsModal from '@/components/ProductDetailsModal.vue';
 
 export default {
   name: 'ProductsServices',
+  components: {
+    ProductDetailsModal,
+  },
   data() {
     return {
       products: [],
+      selectedProduct: null,
+      showModal: false,
       isLoading: false,
       error: null,
     };
@@ -59,7 +72,13 @@ export default {
         this.isLoading = false;
         console.error('There was an error fetching the products:', error);
       }
+    },
+
+    openModal(product) {
+      this.selectedProduct = product;
+      this.showModal = true;
     }
+
   }
 };
 </script>
