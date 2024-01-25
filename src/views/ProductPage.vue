@@ -33,7 +33,7 @@
 
    <!-- Product Details Modal -->
    <ProductDetailsModal
-    :product-details="selectedProductDetails"
+    :product-details="selectedProduct"
     :visible="showModal"
     @close="showModal = false"
   />
@@ -76,7 +76,7 @@ export default {
 
     async fetchProductByID(productID) {
       try {
-        const response = await axios.get(`http://localhost:18080/products/${productID}`)
+        const response = await axios.get(`http://localhost:18080/products/${productID}`);
         this.selectedProduct = response.data;
         this.showModal = true; // Show the modal after setting the selectedProduct
         this.isLoading = false;
