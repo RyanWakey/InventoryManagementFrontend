@@ -1,24 +1,45 @@
 <template>
-    <div v-if="visible" class="modal-overlay" @click.self="close">
-      <div class="modal">
-        <button class="close-btn" @click="close">X</button>
-        <h3>Product Details</h3>
-        <p><strong>ID:</strong> {{ productDetails.ProductID }}</p>
-        <p><strong>Name:</strong> {{ productDetails.Name }}</p>
-        <!-- Add more product details here -->
+  <div v-if="visible" class="modal-overlay" @click.self="close">
+    <div class="modal">
+      <button class="close-btn" @click="close">X</button>
+      <h3>Product Details</h3>
+      <p><strong>ID:</strong> {{ productDetails.ProductID }}</p>
+      <p><strong>Name:</strong> {{ productDetails.Name }}</p>
+      <!-- Add more product details here -->
+      <div class="modal-actions">
+        <div class="edit-button">
+          <button @click="editProduct">Edit</button>
+        </div>
+        <div class="delete-button">
+          <button @click="deleteProduct">Delete</button>
+        </div>
       </div>
     </div>
-  </template>
+  </div>
+</template>
 
 <script>
 export default {
   props: {
-    productDetails: Object,
-    visible: Boolean
+    productDetails: {
+      type: Object,
+      default: () => ({})
+    },
+    visible: {
+      type: Boolean,
+      default: false
+    } 
   },
   methods: {
     close() {
       this.$emit('close');
+    },
+    editProduct() {
+      this.$emit('edit', this.productDetails);
+    },
+    deleteProduct() {
+      this.$emit('delete', this.productDetails.ProductID);
+      this.close();
     }
   }
 };
@@ -42,7 +63,8 @@ export default {
   background-color: white;
   padding: 20px;
   border-radius: 5px;
-  width: 300px;
+  width: 500px;
+  height: auto;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
 }
 
@@ -52,4 +74,18 @@ export default {
   background: none;
   cursor: pointer;
 }
+
+.edit-button button {
+  padding: 10px 20px;
+  margin: 5px;
+  background-color: rgba(103, 138, 6, 0.637);
+  color: white;
+}
+.delete-button button {
+  padding: 10px 20px;
+  margin: 5px;
+  background-color: rgba(255, 0, 0, 0.637);
+  color: white;
+}
+
 </style>
