@@ -20,7 +20,7 @@
         </thead>
         <tbody>
           <tr v-for="product in products" :key="product.ProductID">
-            <td class="item-code" @click="openModal(product)">{{ product.ProductID }}</td>
+            <td class="item-code" @click="fetchProductByID(product.ProductID)">{{ product.ProductID }}</td>
             <td class="item-name">{{ product.Name }}</td>
             <td class="cost-price">£{{ product.Cost }}</td>
             <td class="sale-price">£{{ product.Price }}</td>
@@ -33,7 +33,7 @@
 
    <!-- Product Details Modal -->
    <ProductDetailsModal
-    :productDetails="selectedProduct"
+    :product-details="selectedProductDetails"
     :visible="showModal"
     @close="showModal = false"
   />
@@ -64,7 +64,7 @@ export default {
     async fetchProducts() {
       this.isLoading = true;
       try {
-        const response = await axios.get('http://localhost:18080/products/table-info');
+        const response = await axios.get(`http://localhost:18080/products/table-info`);
         this.products = response.data; 
         this.isLoading = false;
       } catch (error) {
@@ -74,10 +74,18 @@ export default {
       }
     },
 
-    openModal(product) {
-      this.selectedProduct = product;
-      this.showModal = true;
-    }
+    async fetchProductByID(productID) {
+      try {
+        const response = await axios.get(`http://localhost:18080/products/${productID}`)
+        this.selectedProduct = response.data;
+        this.showModal = true; // Show the modal after setting the selectedProduct
+        this.isLoading = false;
+      } catch (error) {
+        this.error = error;
+        this.isLoading = false;
+        console.error('There was an error fetching the product details:', error);
+      }
+    },
 
   }
 };
