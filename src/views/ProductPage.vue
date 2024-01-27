@@ -36,6 +36,7 @@
     :product-details="selectedProduct"
     :visible="showModal"
     @close="showModal = false"
+    @update="handleProductUpdate"
   />
 </template>
 
@@ -86,6 +87,19 @@ export default {
         console.error('There was an error fetching the product details:', error);
       }
     },
+
+    handleProductUpdate(updatedProduct) {
+    // Find the index of the product that was updated
+    const index = this.products.findIndex(product => product.ProductID === updatedProduct.ProductID);
+    if (index !== -1) {
+      // Update the product in the products array
+      this.products.splice(index, 1, updatedProduct);
+      // Update the selectedProduct if it's the one being edited
+      if (this.selectedProduct && this.selectedProduct.ProductID === updatedProduct.ProductID) {
+        this.selectedProduct = { ...updatedProduct };
+      }
+    }
+  },
 
   }
 };

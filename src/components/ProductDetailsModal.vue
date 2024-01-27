@@ -81,6 +81,7 @@ export default {
       if (this.isEditing) {
         // Clone the details for editing
         this.editableProductDetails = { ...this.productDetails };
+        console.log(this.editableProductDetails);
       } else { 
         this.editableProductDetails = {};
         this.isEditing = false;
@@ -88,10 +89,10 @@ export default {
     },
 
     saveChanges() {
-      axios.post(`http://localhost:18080/products/${this.editableProductDetails.ProductID}`, this.editableProductDetails)
+      axios.put(`http://localhost:18080/products/${this.editableProductDetails.ProductID}`, this.editableProductDetails)
       .then(response => {
         this.isEditing = false;
-        this.$emit('update', this.productDetails); // Inform the parent component about the update
+        this.$emit('update', this.editableProductDetails); // Inform the parent component about the update
         console.log(response.data);
       })
       .catch(error => {
