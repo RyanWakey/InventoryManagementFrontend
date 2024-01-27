@@ -34,9 +34,16 @@
    <!-- Product Details Modal -->
    <ProductDetailsModal
     :product-details="selectedProduct"
-    :visible="showModal"
-    @close="showModal = false"
+    :visible="showEditModal"
+    @close="showEditModal = false"
     @update="handleProductUpdate"
+  />
+   
+  <!-- Add Product Modal -->
+   <AddProductModal
+    :visible="showAddProductModal"
+    @close="showAddProductModal = false"
+    @product-added="handleProductAdded"
   />
 </template>
 
@@ -53,7 +60,7 @@ export default {
     return {
       products: [],
       selectedProduct: null,
-      showModal: false,
+      showEditModal: false,
       isLoading: false,
       error: null,
     };
@@ -79,7 +86,7 @@ export default {
       try {
         const response = await axios.get(`http://localhost:18080/products/${productID}`);
         this.selectedProduct = response.data;
-        this.showModal = true; // Show the modal after setting the selectedProduct
+        this.showEditModal = true; // Show the modal after setting the selectedProduct
         this.isLoading = false;
       } catch (error) {
         this.error = error;
