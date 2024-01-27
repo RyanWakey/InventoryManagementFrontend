@@ -51,6 +51,9 @@
 </template>
 
 <script>
+
+import axios from 'axios';
+
 export default {
   props: {
     productDetails: {
@@ -72,29 +75,35 @@ export default {
     close() {
       this.$emit('close');
     },
+
     toggleEdit() {
       this.isEditing = !this.isEditing;
       if (this.isEditing) {
         // Clone the details for editing
         this.editableProductDetails = { ...this.productDetails };
+      } else { 
+        this.editableProductDetails = {};
+        this.isEditing = false;
       }
     },
+
     saveChanges() {
-      // Call your API to save changes
-      // Replace with your actual API call and handle the promise accordingly
-      console.log('Saving changes:', this.editableProductDetails);
-      this.close(); // Close the modal after saving
-      // Emit an event to inform the parent component about the update
-      this.$emit('update', this.editableProductDetails);
+      axios.post(`http://localhost:18080/products/${this.editableProductDetails.ProductID}`, this.editableProductDetails)
+      .then(response => {
+        this.isEditing = false;
+        this.$emit('update', this.productDetails); // Inform the parent component about the update
+        console.log(response.data);
+      })
+      .catch(error => {
+        // Handle errors, e.g., show an error message
+        console.error('Error saving the product details:', error);
+      });
     },
+
     deleteProduct() {
-      // Call your API to delete the product
-      // Replace with your actual API call and handle the promise accordingly
-      console.log('Deleting product:', this.productDetails.ProductID);
-      this.close(); // Close the modal after deleting
-      // Emit an event to inform the parent component about the deletion
-      this.$emit('delete', this.productDetails.ProductID);
-    }
+      
+     
+    },
   }
 };
 </script>
