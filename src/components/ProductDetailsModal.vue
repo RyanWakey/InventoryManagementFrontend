@@ -101,8 +101,15 @@ export default {
     },
 
     deleteProduct() {
-      
-     
+      axios.delete(`http://localhost:18080/products/${this.productDetails.ProductID}`)
+      .then(response => {
+        this.close(); // Close the modal
+        this.$emit('delete', this.productDetails.ProductID); // Emit delete event
+        console.log(response.data); // Log or handle the response as needed
+      })
+      .catch(error => {
+        console.error('Error deleting the product:', error);
+      });
     },
   }
 };
