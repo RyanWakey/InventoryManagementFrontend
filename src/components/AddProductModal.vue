@@ -10,7 +10,7 @@
           <label for="description">Description:</label>
           <textarea id="description" v-model="newProduct.Description"></textarea>
   
-          <!-- Add form inputs for all other fields like Price, Cost, etc. -->
+          
   
           <button @click="addProduct">Add Product</button>
         </div>
@@ -22,26 +22,21 @@
   import axios from 'axios';
   
   export default {
-    data() {
-      return {
-        visible: false,
-        newProduct: {
-          Name: '',
-          Description: '',
-          // Initialize other fields as well
-        }
-      };
+    props: {
+      visible: {
+        type: Boolean,
+        default: false,
+      }
     },
+
     methods: {
       close() {
         this.$emit('close');
       },
       addProduct() {
-        // Here you will call your backend API to add the new product
         axios.post('http://localhost:18080/products', this.newProduct)
           .then(response => {
-            // Handle success, close the modal, and clear the form
-            this.visible = false;
+            this.close(); 
             this.newProduct = {}; // Reset form
             this.$emit('product-added', response.data); // Inform parent to update list
           })

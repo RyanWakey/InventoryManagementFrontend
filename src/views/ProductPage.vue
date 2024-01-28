@@ -5,7 +5,7 @@
       <!-- Table search and button -->
       <div class="table-header">
         <input type="text" placeholder="Search..." v-model="searchQuery" @input="filterTable">
-        <button class="new-item-btn">+ Add Product</button>
+        <button class="new-item-btn" @click="showAddProductModal = true">+ Add Product</button>
       </div>
       <!-- Products table -->
       <table>
@@ -50,17 +50,20 @@
 <script>
 import axios from 'axios';
 import ProductDetailsModal from '@/components/ProductDetailsModal.vue';
+import AddProductModal from '@/components/AddProductModal.vue';
 
 export default {
   name: 'ProductsServices',
   components: {
     ProductDetailsModal,
+    AddProductModal
   },
   data() {
     return {
       products: [],
       selectedProduct: null,
       showEditModal: false,
+      showAddProductModal: false,
       isLoading: false,
       error: null,
     };
@@ -106,6 +109,11 @@ export default {
         this.selectedProduct = { ...updatedProduct };
       }
     }
+  },
+  
+  handleProductAdded(newProduct) {
+    this.products.push(newProduct);
+    this.showAddProductModal = false; // Close the modal
   },
 
   }
