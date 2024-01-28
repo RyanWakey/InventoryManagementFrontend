@@ -133,10 +133,11 @@ export default {
 
 .modal {
     background-color: white;
-    padding: 20px;
-    border-radius: 5px;
-    width: 500px; /* Adjust the width as needed */
+    padding: 30px;
+    border-radius: 15px;
+    width: 600px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    font-size: 1.1em; 
 }
 
 .close-btn {
@@ -147,7 +148,12 @@ export default {
 }
 
 .form-group {
-  margin-bottom: 10px; /* Add some space between form groups */
+  margin-bottom: 25px; /* Add some space between form groups */
+  margin-left: 5px;
+}
+
+label {
+  margin-right: 8px; /* Adjust the value as needed */
 }
 
 </style>
