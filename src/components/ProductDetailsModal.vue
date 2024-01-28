@@ -107,7 +107,6 @@ export default {
         console.log(response.data);
       })
       .catch(error => {
-        // Handle errors, e.g., show an error message
         console.error('Error saving the product details:', error);
       });
     },
@@ -117,7 +116,7 @@ export default {
       .then(response => {
         this.close(); // Close the modal
         this.$emit('delete', this.productDetails.ProductID); // Emit delete event
-        console.log(response.data); // Log or handle the response as needed
+        console.log(response.data); 
       })
       .catch(error => {
         console.error('Error deleting the product:', error);

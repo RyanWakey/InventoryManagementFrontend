@@ -37,6 +37,7 @@
     :visible="showEditModal"
     @close="showEditModal = false"
     @update="handleProductUpdate"
+    @delete="handleProductDelete"
   />
    
   <!-- Add Product Modal -->
@@ -140,6 +141,10 @@ export default {
     handleProductAdded(newProduct) {
       this.products.push(newProduct);
       this.showAddProductModal = false; // Close the modal
+    },
+
+    handleProductDelete(productId) {
+      this.products = this.products.filter(product => product.ProductID !== productId);
     },
 
     async fetchCategories() {
