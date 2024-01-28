@@ -48,6 +48,29 @@
   />
 </template>
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <script>
 import axios from 'axios';
 import ProductDetailsModal from '@/components/ProductDetailsModal.vue';
@@ -131,6 +154,23 @@ export default {
   }
 };
 </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

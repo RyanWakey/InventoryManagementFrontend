@@ -54,6 +54,17 @@
 </template>
 
 
+
+
+
+
+
+
+
+
+
+
+
 <script>
 import DashboardCard from '@/components/DashboardRelated/DashboardCard.vue'
 import SalesCard from '@/components/DashboardRelated/SalesCard.vue';
@@ -74,6 +85,22 @@ export default {
   }
 }
 </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 <style scoped>
 .dashboard-header {
