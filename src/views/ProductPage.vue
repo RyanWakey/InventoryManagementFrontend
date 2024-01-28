@@ -44,6 +44,7 @@
     :visible="showAddProductModal"
     @close="showAddProductModal = false"
     @product-added="handleProductAdded"
+    :categories="categories"
   />
 </template>
 
@@ -61,6 +62,7 @@ export default {
   data() {
     return {
       products: [],
+      categories: [],
       selectedProduct: null,
       showEditModal: false,
       showAddProductModal: false,
@@ -70,6 +72,7 @@ export default {
   },
   created() {
     this.fetchProducts();
+    this.fetchCategories();
   },
   methods: {
     async fetchProducts() {
@@ -114,6 +117,15 @@ export default {
     handleProductAdded(newProduct) {
       this.products.push(newProduct);
       this.showAddProductModal = false; // Close the modal
+    },
+
+    async fetchCategories() {
+      try {
+        const response = await axios.get('http://localhost:18080/categories');
+        this.categories = response.data;
+      } catch (error) {
+        console.error('There was an error fetching the categories:', error);
+      }
     },
 
   }

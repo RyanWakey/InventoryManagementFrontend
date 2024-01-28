@@ -55,8 +55,12 @@
         </div>
 
         <div class="form-group">
-          <label for="categoriesID">Category ID:</label>
-          <input type="number" id="categoriesID" v-model="newProduct.CategoriesID" required>
+          <label for="categoriesID">Category:</label>
+          <select id="categoriesID" v-model="newProduct.CategoriesID" required>
+            <option v-for="category in categories" :key="category.CategoriesID" :value="category.CategoriesID">
+              {{ category.Name }}
+            </option>
+          </select>
         </div>
 
         <button @click="addProduct">Add Product</button>
@@ -73,8 +77,13 @@ export default {
     visible: {
       type: Boolean,
       default: false,
+    },
+    categories: {
+      type: Array, 
+      default: () => [],
     }
   },
+ 
   
   data() {
     return {
