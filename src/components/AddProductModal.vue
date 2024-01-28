@@ -98,9 +98,11 @@ export default {
   },
 
   methods: {
+    
     close() {
       this.$emit('close');
     },
+
     addProduct() {
       axios.post('http://localhost:18080/products', this.newProduct)
         .then(response => {

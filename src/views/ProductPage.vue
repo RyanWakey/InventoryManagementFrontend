@@ -99,22 +99,22 @@ export default {
     },
 
     handleProductUpdate(updatedProduct) {
-    // Find the index of the product that was updated
-    const index = this.products.findIndex(product => product.ProductID === updatedProduct.ProductID);
-    if (index !== -1) {
-      // Update the product in the products array
-      this.products.splice(index, 1, updatedProduct);
-      // Update the selectedProduct if it's the one being edited
-      if (this.selectedProduct && this.selectedProduct.ProductID === updatedProduct.ProductID) {
-        this.selectedProduct = { ...updatedProduct };
+      // Find the index of the product that was updated
+      const index = this.products.findIndex(product => product.ProductID === updatedProduct.ProductID);
+      if (index !== -1) {
+        // Update the product in the products array
+        this.products.splice(index, 1, updatedProduct);
+        // Update the selectedProduct if it's the one being edited
+        if (this.selectedProduct && this.selectedProduct.ProductID === updatedProduct.ProductID) {
+          this.selectedProduct = { ...updatedProduct };
+        }
       }
-    }
-  },
+    },
   
-  handleProductAdded(newProduct) {
-    this.products.push(newProduct);
-    this.showAddProductModal = false; // Close the modal
-  },
+    handleProductAdded(newProduct) {
+      this.products.push(newProduct);
+      this.showAddProductModal = false; // Close the modal
+    },
 
   }
 };
