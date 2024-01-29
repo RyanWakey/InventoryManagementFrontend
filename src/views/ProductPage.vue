@@ -105,7 +105,7 @@ export default {
     };
   },
   created() {
-    this.fetchProducts();
+    //this.fetchProducts();
     this.fetchCategories();
     this.fetchAllProducts();
   },
@@ -120,18 +120,18 @@ export default {
   },
 
   methods: {
-    async fetchProducts() {
-      this.isLoading = true;
-      try {
-        const response = await axios.get(`http://localhost:18080/products/table-info`);
-        this.products = response.data; 
-        this.isLoading = false;
-      } catch (error) {
-        this.error = error;
-        this.isLoading = false;
-        console.error('There was an error fetching the products:', error);
-      }
-    },
+    // async fetchProducts() {
+    //   this.isLoading = true;
+    //   try {
+    //     const response = await axios.get(`http://localhost:18080/products/table-info`);
+    //     this.products = response.data; 
+    //     this.isLoading = false;
+    //   } catch (error) {
+    //     this.error = error;
+    //     this.isLoading = false;
+    //     console.error('There was an error fetching the products:', error);
+    //   }
+    // },
 
     async fetchAllProducts() {
       this.isLoading = true;
