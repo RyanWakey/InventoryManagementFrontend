@@ -2,9 +2,18 @@
   <div class="products-services">
     <h1>Products and Services</h1>
     <div class="table-container">
-      <!-- Table search and button -->
+      <!-- Table search -->
       <div class="table-header">
         <input type="text" placeholder="Search..." v-model="searchQuery" @input="filterTable">
+        
+         <!-- Category Dropdown -->
+        <select v-model="selectedCategory">
+          <option value="">All Categories</option>
+          <option v-for="category in categories" :key="category.CategoriesID" :value="category.CategoriesID">
+            {{ category.Name }}
+          </option>
+        </select>
+
         <button class="new-item-btn" @click="showAddProductModal = true">+ Add Product</button>
       </div>
       <!-- Products table -->
@@ -19,7 +28,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="product in products" :key="product.ProductID">
+          <tr v-for="product in filteredProducts" :key="product.ProductID">
             <td class="item-code" @click="fetchProductByID(product.ProductID)">{{ product.ProductID }}</td>
             <td class="item-name">{{ product.Name }}</td>
             <td class="cost-price">£{{ product.Cost }}</td>
@@ -87,6 +96,7 @@ export default {
     return {
       products: [],
       categories: [],
+      selectedCategory: '',
       selectedProduct: null,
       showEditModal: false,
       showAddProductModal: false,
@@ -98,6 +108,16 @@ export default {
     this.fetchProducts();
     this.fetchCategories();
   },
+
+  computed: {
+    filteredProducts() {
+      if (!this.selectedCategory) {
+        return this.products;
+      }
+      return this.products.filter(product => product.CategoriesID === this.selectedCategory);
+    },
+  },
+
   methods: {
     async fetchProducts() {
       this.isLoading = true;
