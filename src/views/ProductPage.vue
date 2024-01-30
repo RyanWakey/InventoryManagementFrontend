@@ -4,7 +4,7 @@
     <div class="table-container">
       <!-- Table search -->
       <div class="table-header">
-        <input type="text" placeholder="Search..." v-model="searchQuery" @input="filterTable">
+        <input type="text" placeholder="Search..." v-model="searchQuery">
         
          <!-- Category Dropdown -->
         <select v-model="selectedCategory">
@@ -28,7 +28,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="product in filteredProducts" :key="product.ProductID">
+          <tr v-for="product in getFilteredProducts()" :key="product.ProductID">
             <td class="item-code" @click="fetchProductByID(product.ProductID)">{{ product.ProductID }}</td>
             <td class="item-name">{{ product.Name }}</td>
             <td class="cost-price">£{{ product.Cost }}</td>
@@ -98,6 +98,7 @@ export default {
       categories: [],
       selectedCategory: '',
       selectedProduct: null,
+      searchQuery: '',
       showEditModal: false,
       showAddProductModal: false,
       isLoading: false,
@@ -111,14 +112,30 @@ export default {
   },
 
   computed: {
-    filteredProducts() {
+    categoryFilteredProducts() {
+      console.log("Filtering by search query:", this.searchQuery); // Add this line for debugging
       if (!this.selectedCategory) {
         return this.products;
       }
       return this.products.filter(product => product.CategoriesID === this.selectedCategory);
     },
+    searchFilteredProducts() {
+      console.log("Filtering by category:", this.selectedCategory); // Add this line for debugging
+      if (!this.searchQuery || this.searchQuery.trim() === '') {
+        return this.products;
+      }
+      const searchLowerCase = this.searchQuery.toLowerCase();
+      return this.products.filter(product =>
+        (product.Name && product.Name.toLowerCase().includes(searchLowerCase)) ||
+        (product.Description && product.Description.toLowerCase().includes(searchLowerCase)) ||
+        (product.ProductID && product.ProductID.toString().includes(searchLowerCase))
+      );
+    },
+    filteredProducts() {
+    // Already filtered by both search and category
+    return this.categoryFilteredProducts;
+    },
   },
-
   methods: {
     // async fetchProducts() {
     //   this.isLoading = true;
@@ -190,6 +207,19 @@ export default {
         console.error('There was an error fetching the categories:', error);
       }
     },
+
+    getFilteredProducts() {
+      const categoryFiltered = this.categoryFilteredProducts;
+      const searchFiltered = this.searchFilteredProducts;
+
+      // If the category is selected, filter the search results further based on the category.
+      if (this.selectedCategory) {
+        return searchFiltered.filter(product => categoryFiltered.includes(product));
+      }
+
+      // If no category is selected, just use the search filter.
+      return searchFiltered;
+   },
 
   }
 };
