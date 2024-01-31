@@ -15,7 +15,7 @@
 
     <!-- Profile Picture -->
     <div class="profile-container">
-      <router-link to="/loginRegister" class="navbar-item"> 
+      <router-link to="/login" class="navbar-item"> 
         <div>
           <img src ="@/assets/ProfilePic.png" alt="Profile Image" class="profile-logo">
         </div>
