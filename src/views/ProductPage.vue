@@ -369,6 +369,7 @@ tbody tr:hover {
   color: white;
   border: none;
   cursor: pointer;
+  margin-left: 10px;
 }
 
 .new-item-btn:hover {

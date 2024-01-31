@@ -1,20 +1,28 @@
 <!-- NavBar.vue -->
 <template>
-    <nav class="navbar">
-      <!-- Logo and branding -->
-      <div class="navbar-brand">
-        <img src="@/assets/IMlogo.png" alt="Company Logo" class="navbar-logo">
-      </div>
-  
-      <!-- Navigation links -->
-      <div class="navbar-menu">
-        <router-link to="/" class="navbar-item">Dashboard</router-link>
-        <router-link to="/products" class="navbar-item">Business</router-link>
-        <router-link to="/accounting" class="navbar-item">Accounting</router-link>
-        <!-- More links as needed -->
-      </div>
-    </nav>
-  </template>
+  <nav class="navbar">
+    <!-- Logo and branding -->
+    <div class="navbar-brand">
+      <img src="@/assets/IMlogo.png" alt="Company Logo" class="navbar-logo">
+    </div>
+
+    <!-- Navigation links -->
+    <div class="navbar-menu">
+      <router-link to="/" class="navbar-item">Dashboard</router-link>
+      <router-link to="/products" class="navbar-item">Business</router-link>
+      <router-link to="/accounting" class="navbar-item">Accounting</router-link>
+    </div>
+
+    <!-- Profile Picture -->
+    <div class="profile-container">
+      <router-link to="/loginRegister" class="navbar-item"> 
+        <div>
+          <img src ="@/assets/ProfilePic.png" alt="Profile Image" class="profile-logo">
+        </div>
+      </router-link>
+    </div>
+  </nav>
+</template>
   
   <script>
   export default {
@@ -45,7 +53,12 @@
   width: 240px;
   height: auto;
  }
-
+ 
+ .profile-logo{
+  width: 60px;
+  height: auto;
+ }
+ 
  .navbar-menu .navbar-item {
   margin-right: 20px;
   color: white; 
@@ -61,5 +74,11 @@
 .navbar-menu .navbar-item {
   padding: 0 15px;
 }
+
+.profile-container {
+  margin-left: auto; 
+  width: 70px;
+}
+
   </style>
   
