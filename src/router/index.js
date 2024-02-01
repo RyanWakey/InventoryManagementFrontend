@@ -7,6 +7,10 @@ import RegisterPage from '@/views/RegisterPage.vue'
 const routes = [
   {
     path: '/',
+    redirect: '/dashboard'
+  },
+  {
+    path: '/dashboard',
     name: 'DashboardPage',
     component: DashboardPage
   },
@@ -25,7 +29,7 @@ const routes = [
     name: 'Register',
     component: RegisterPage
   }
-  // Define other routes as needed
+
 ]
 
 const router = createRouter({
