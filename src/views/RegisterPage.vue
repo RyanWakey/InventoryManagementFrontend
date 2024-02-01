@@ -2,7 +2,7 @@
   <div class="registration-page">
     <div class="registration-container">
       <h1>Customer Registration</h1>
-      
+
       <form @submit.prevent="register" class="registration-form">
 
         <div class="form-group">
@@ -17,8 +17,11 @@
           <input type="password" id="confirmPassword" v-model="customer.confirmPassword" placeholder="Confirm Password" required>
         </div>
 
-        <button type="submit" class="register-btn">Register</button>
+        <!-- Display error message if passwords do not match -->
+        <p v-if="!passwordsMatch" class="error-message">Passwords do not match.</p>
 
+        <button type="submit" class="register-btn" :disabled="!passwordsMatch">Register</button>
+        
       </form>
     </div>
   </div> 
@@ -27,26 +30,52 @@
 
 <script>
 
+import axios from 'axios';
+
 export default {
   data() {
     return {
       customer: {
         email: '',
         password: '',
-        name: '',
-        contactDetails: '',
-        address: '',
-        city: '',
-        country: '',
+        confirmPassword: '',
       },
     };
   },
-  methods: {
-    register() {
-      // Implement registration logic here
-      // This will involve sending the customer data to the backend
-    },
+
+  computed: {
+    passwordsMatch() {
+      return this.customer.password === this.customer.confirmPassword;
+    }
   },
+
+  methods: {
+    async register() {
+      console.log(this.passwordsMatch);
+      if (this.passwordsMatch) {  
+        try {
+          const response = await axios.post('http://localhost:18080/register', {
+            email: this.customer.email,
+            password: this.customer.password,
+          });
+
+          if (response.status === 201) {
+            const { token } = response.data;
+            localStorage.setItem('userToken', token); // Save the token
+
+            alert('Account created successfully');
+            this.$router.push({ path: '/dashboard' })
+          } else {
+            alert('Registration failed: ' + response.data);
+          }
+          
+        } catch (error) {
+          console.error('There was an error!', error);
+          alert('Registration failed: ' + error);
+        }
+      }
+    }
+  }
 };
 
 </script>
@@ -98,6 +127,10 @@ export default {
 
 .registration-form .register-btn:hover {
   background-color: #45a049;
+}
+
+.error-message {
+  color: red;
 }
 
 </style>
