@@ -7,6 +7,7 @@
 
         <div class="form-group">
           <input type="email" id="email" v-model="customer.email" placeholder="Email" required>
+          <p v-if="emailError" class="error-message">{{ emailError }}</p>
         </div>
 
         <div class="form-group">
@@ -20,7 +21,7 @@
         <!-- Display error message if passwords do not match -->
         <p v-if="!passwordsMatch" class="error-message">Passwords do not match.</p>
 
-        <button type="submit" class="register-btn" :disabled="!passwordsMatch">Register</button>
+        <button type="submit" class="register-btn">Register</button>
         
       </form>
     </div>
@@ -40,6 +41,7 @@ export default {
         password: '',
         confirmPassword: '',
       },
+      emailError: '',
     };
   },
 
@@ -51,7 +53,6 @@ export default {
 
   methods: {
     async register() {
-      console.log(this.passwordsMatch);
       if (this.passwordsMatch) {  
         try {
           const response = await axios.post('http://localhost:18080/register', {
@@ -62,17 +63,24 @@ export default {
           if (response.status === 201) {
             const { token } = response.data;
             localStorage.setItem('userToken', token); // Save the token
-
             alert('Account created successfully');
-            this.$router.push({ path: '/dashboard' })
+            this.$router.push({ path: '/dashboard' });
+          } else if (response.status === 409) {
+            alert('Registration failed: Email already exists.');
           } else {
             alert('Registration failed: ' + response.data);
-          }
+          }  
           
         } catch (error) {
           console.error('There was an error!', error);
-          alert('Registration failed: ' + error);
+          if (error.response && error.response.status === 409) {
+            this.emailError = 'Email already exists.';
+          } else {
+            alert('Registration failed: ' + error);
+          }
         }
+      } else {
+        alert('Registration failed - Passwords don\'t match');
       }
     }
   }
