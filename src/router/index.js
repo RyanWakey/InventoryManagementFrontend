@@ -3,6 +3,8 @@ import DashboardPage from '../views/DashboardPage.vue'
 import ProductPage from '../views/ProductPage.vue' 
 import LoginPage from '@/views/LoginPage.vue'
 import RegisterPage from '@/views/RegisterPage.vue'
+import ProfilePage from '@/views/ProfilePage.vue'
+
 
 const routes = [
   {
@@ -27,7 +29,12 @@ const routes = [
   {
     path: '/register',
     name: 'Register',
-    component: RegisterPage
+    componment: RegisterPage
+  }, 
+  {
+    path: 'profile',
+    name: 'Profile',
+    component: ProfilePage
   }
 
 ]
@@ -35,6 +42,18 @@ const routes = [
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes
+})
+
+router.beforeEach((to, from, next) => {
+  const publicPages = ['/login', '/register'];
+  const authRequired = !publicPages.includes(to.path);
+  const loggedIn = localStorage.getItem('userToken');
+
+  if (authRequired && !loggedIn) {
+      return next('/login');
+  }
+
+  next();
 })
 
 export default router
