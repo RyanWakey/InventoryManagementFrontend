@@ -20,7 +20,7 @@
 
         <!-- Display error message if passwords do not match -->
         <p v-if="!passwordsMatch" class="error-message">Passwords do not match.</p>
-
+        <p v-if="registrationError" class="error-message">{{ registrationError }}</p>  
         <button type="submit" class="register-btn">Register</button>
         
       </form>
@@ -42,6 +42,7 @@ export default {
         confirmPassword: '',
       },
       emailError: '',
+      registrationError: '',
     };
   },
 
@@ -53,36 +54,35 @@ export default {
 
   methods: {
     async register() {
-      if (this.passwordsMatch) {  
-        try {
-          const response = await axios.post('http://localhost:18080/register', {
-            email: this.customer.email,
-            password: this.customer.password,
-          });
-
-          if (response.status === 201) {
-            const { token } = response.data;
-            localStorage.setItem('userToken', token); // Save the token
-            alert('Account created successfully');
-            this.$router.push({ path: '/dashboard' });
-          } else if (response.status === 409) {
-            alert('Registration failed: Email already exists.');
-          } else {
-            alert('Registration failed: ' + response.data);
-          }  
-          
-        } catch (error) {
-          console.error('There was an error!', error);
-          if (error.response && error.response.status === 409) {
-            this.emailError = 'Email already exists.';
-          } else {
-            alert('Registration failed: ' + error);
-          }
-        }
-      } else {
-        alert('Registration failed - Passwords don\'t match');
+      this.registrationError = ''; // Reset the registration error message
+      
+      if (!this.passwordsMatch) {
+        this.registrationError = 'Passwords do not match.';
+        return;
       }
-    }
+
+      try {
+        const response = await axios.post('http://localhost:18080/register', {
+          email: this.customer.email,
+          password: this.customer.password,
+        });
+
+        if (response.status === 201) {
+          const { token } = response.data;
+          localStorage.setItem('userToken', token); // Save the token
+          this.$router.push({ path: '/dashboard' }); // Navigate to the dashboard
+        } else {
+          this.registrationError = 'Registration failed: ' + response.data;
+        }
+      } catch (error) {
+        console.error('There was an error!', error);
+        if (error.response && error.response.status === 409) {
+          this.registrationError = 'Email already exists.';
+        } else {
+          this.registrationError = 'Registration failed: ' + error;
+        }
+      }
+    },
   }
 };
 
