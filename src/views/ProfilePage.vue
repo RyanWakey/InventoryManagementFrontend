@@ -12,7 +12,7 @@ export default {
       // Remove the token from localStorage
       localStorage.removeItem('userToken');
             
-      // Redirect the user to the login page or home page
+      // Redirect the user to the home page
       this.$router.push('/dashboard');
     }
   }

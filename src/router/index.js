@@ -49,9 +49,9 @@ router.beforeEach((to, from, next) => {
 
   if (authRequired && !loggedIn) {
     return next('/login');
+  } else if (!authRequired && loggedIn && to.path === '/login') {
+    return next('/dashboard');
   }
-
   next();
-})
-
+});
 export default router

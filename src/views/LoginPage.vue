@@ -17,6 +17,9 @@
 </template>
   
 <script>
+
+import axios from 'axios'
+
   export default {
     data() {
       return {
@@ -30,8 +33,15 @@
     methods: {
       async handleLogin() {
         try {
-          // const response = await this.$axios.post('/login', this.loginDetails);
-          // Handle successful login, store the token, redirect, etc.
+          const response = await axios.post('http://localhost:18080/login', this.loginDetails);
+
+          if (response.status === 200) {
+            // Store the token
+            localStorage.setItem('userToken', response.data.token);
+
+            // Redirect to dashboard
+            this.$router.push({ path: '/dashboard' });
+          }
         } catch (err) {
           // Handle error, show error message
           this.error = 'Invalid login credentials. Please try again.';
@@ -39,6 +49,7 @@
       }
     }
   };
+  
 </script>
   
 <style scoped>
