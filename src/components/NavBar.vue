@@ -15,7 +15,15 @@
 
     <!-- Profile Picture -->
     <div class="profile-container">
-      <router-link to="/login" class="navbar-item"> 
+      <!-- If authenticated, show profile link -->
+      <router-link v-if="isAuthenticated" to="/profile" class="navbar-item"> 
+        <div>
+          <img src ="@/assets/ProfilePic.png" alt="Profile Image" class="profile-logo">
+        </div>
+      </router-link>
+      
+      <!-- If not authenticated, show login link -->
+      <router-link v-else to="/login" class="navbar-item"> 
         <div>
           <img src ="@/assets/ProfilePic.png" alt="Profile Image" class="profile-logo">
         </div>
@@ -24,13 +32,23 @@
   </nav>
 </template>
   
-  <script>
+
+
+<script>
   export default {
-    name: 'NavBar'
+    computed: {
+     isAuthenticated() {
+        console.log("dsasdad " + !!localStorage.getItem('userToken'));
+        return !!localStorage.getItem('userToken');
+    }
   }
-  </script>
+
+}
+
   
-  <style scoped>
+</script>
+  
+<style scoped>
   .navbar {
     background-color: rgb(7, 124, 126);
     display: flex;
@@ -38,37 +56,37 @@
     padding: 16px 20px;
  }
  .navbar-menu {
-  display: flex;
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
  .navbar-brand {
-  display: flex;
-  align-items: center;
-  margin-right: 50px;
+    display: flex;
+    align-items: center;
+    margin-right: 50px;
  }
 
- .navbar-logo{
-  width: 240px;
-  height: auto;
+ .navbar-logo {
+    width: 240px;
+    height: auto;
  }
  
- .profile-logo{
-  width: 60px;
-  height: auto;
+ .profile-logo {
+    width: 60px;
+    height: auto;
  }
  
  .navbar-menu .navbar-item {
-  margin-right: 20px;
-  color: white; 
-  text-decoration: none; /* Removes underline from links */
-  font-size: 22px;
-  font-weight: bold;
+    margin-right: 20px;
+    color: white; 
+    text-decoration: none; /* Removes underline from links */
+    font-size: 22px;
+    font-weight: bold;
  }
 
  .navbar-menu .navbar-item:last-child {
-  margin-right: 0; /* Remove margin from the last item */
+    margin-right: 0; /* Remove margin from the last item */
  }
 
 .navbar-menu .navbar-item {
@@ -80,5 +98,5 @@
   width: 70px;
 }
 
-  </style>
+</style>
   
