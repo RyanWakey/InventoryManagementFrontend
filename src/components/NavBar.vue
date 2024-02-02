@@ -36,6 +36,8 @@
 
 <script>
   export default {
+    name: 'NavBar',
+
     computed: {
      isAuthenticated() {
         console.log("dsasdad " + !!localStorage.getItem('userToken'));

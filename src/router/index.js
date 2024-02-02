@@ -3,8 +3,7 @@ import DashboardPage from '../views/DashboardPage.vue'
 import ProductPage from '../views/ProductPage.vue' 
 import LoginPage from '@/views/LoginPage.vue'
 import RegisterPage from '@/views/RegisterPage.vue'
-import ProfilePage from '@/views/ProfilePage.vue'
-
+import ProfilePage from '../views/ProfilePage.vue'
 
 const routes = [
   {
@@ -29,14 +28,13 @@ const routes = [
   {
     path: '/register',
     name: 'Register',
-    componment: RegisterPage
+    component: RegisterPage 
   }, 
   {
-    path: 'profile',
+    path: '/profile', // Added leading slash
     name: 'Profile',
     component: ProfilePage
   }
-
 ]
 
 const router = createRouter({
@@ -50,7 +48,7 @@ router.beforeEach((to, from, next) => {
   const loggedIn = localStorage.getItem('userToken');
 
   if (authRequired && !loggedIn) {
-      return next('/login');
+    return next('/login');
   }
 
   next();
