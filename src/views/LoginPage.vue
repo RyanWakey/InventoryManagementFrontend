@@ -9,6 +9,13 @@
         <div class="form-group">
           <input type="password" id="password" v-model="loginDetails.password" placeholder="Password" required>
         </div>
+        <div class="form-group">
+          <label for="userType">I am a: </label>
+          <select id="userType" v-model="loginDetails.userType" required>
+            <option value="customer">Customer</option>
+            <option value="employee">Employee</option>
+          </select>
+        </div>
         <button type="submit">Login</button>
         <p v-if="error" class="error-message">{{ error }}</p>
       </form>
@@ -24,12 +31,18 @@ import axios from 'axios'
     data() {
       return {
         loginDetails: {
+          userType: '',
           email: '',
           password: ''
         },
         error: null
       };
     },
+
+    // created() {
+    //   this.checkAuthToken();
+    // },
+
     methods: {
       async handleLogin() {
         try {
@@ -42,11 +55,20 @@ import axios from 'axios'
             // Redirect to dashboard
             this.$router.push({ path: '/dashboard' });
           }
-        } catch (err) {
-          // Handle error, show error message
+        } catch (error) {
           this.error = 'Invalid login credentials. Please try again.';
+          console.error('Login error:', error);
         }
-      }
+      },
+
+      // checkAuthToken() { 
+      //   const token = localStorage.getItem('userToken');
+      //   if (token) {
+      //     console.log('Token exists:', token);
+      //   } else {
+      //     console.log('No token found. User is not logged in.');
+      //   }
+      // }
     }
   };
   

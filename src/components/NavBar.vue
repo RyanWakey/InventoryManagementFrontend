@@ -19,6 +19,7 @@
       <router-link v-if="isAuthenticated" to="/profile" class="navbar-item"> 
         <div>
           <img src ="@/assets/ProfilePic.png" alt="Profile Image" class="profile-logo">
+          <p class="auth-message">You are logged in</p> <!-- Display message -->
         </div>
       </router-link>
       
@@ -26,6 +27,7 @@
       <router-link v-else to="/login" class="navbar-item"> 
         <div>
           <img src ="@/assets/ProfilePic.png" alt="Profile Image" class="profile-logo">
+          <span class="auth-message">Login in</span> <!-- Display message -->
         </div>
       </router-link>
     </div>
@@ -98,7 +100,13 @@
 .profile-container {
   margin-left: auto; 
   width: 70px;
+  align-items: center;
 }
+
+.auth-message {
+    color: white;
+    font-size: 16px;
+  }
 
 </style>
   
