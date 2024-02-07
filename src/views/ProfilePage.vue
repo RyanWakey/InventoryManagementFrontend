@@ -60,7 +60,8 @@ export default {
 
 
 <style scoped>
-.profile-page {
+.profile-page { 
+  
 }
 .error {
   color: red;

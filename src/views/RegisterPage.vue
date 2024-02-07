@@ -68,8 +68,11 @@ export default {
         });
 
         if (response.status === 201) {
-          const { token } = response.data;
-          localStorage.setItem('userToken', token); // Save the token
+          const { token, userId, userType } = response.data;
+          localStorage.setItem('userToken', token); // Save user details locally
+          localStorage.setItem('userId', userId);
+          localStorage.setItem('userType', userType);
+
           this.$router.push({ path: '/dashboard' }); // Navigate to the dashboard
         } else {
           this.registrationError = 'Registration failed: ' + response.data;
