@@ -37,6 +37,8 @@
 
 
 <script>
+import { mapState } from 'vuex';
+
   export default {
     name: 'NavBar',
 
@@ -44,9 +46,15 @@
      isAuthenticated() {
         console.log("dsasdad " + !!localStorage.getItem('userToken'));
         return !!localStorage.getItem('userToken');
-    }
-  }
+      },
+      
+      ...mapState(['isAuthenticated'])
 
+    },
+
+    created() {
+      this.$store.dispatch('authenticateUser', !!localStorage.getItem('userToken'));
+    }
 }
 
   

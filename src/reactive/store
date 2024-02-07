@@ -1,0 +1,20 @@
+// store.js
+import { createStore } from 'vuex';
+
+export default createStore({
+  state() {
+    return {
+      isAuthenticated: false
+    };
+  },
+  mutations: {
+    setAuth(state, status) {
+      state.isAuthenticated = status;
+    }
+  },
+  actions: {
+    authenticateUser({ commit }, status) {
+      commit('setAuth', status);
+    }
+  }
+});
