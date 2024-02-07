@@ -1,15 +1,20 @@
 <template>
     <div class="profile-page">
-      <div v-if="customer">
+      <div v-if="profileData && userType === 'customer'">
         <h1>Customer Profile</h1>
-        <p><strong>ID:</strong> {{ customer.CustomerID }}</p>
-        <p><strong>Name:</strong> {{ customer.Name }}</p>
-        <p><strong>Contact Details:</strong> {{ customer.ContactDetails }}</p>
-        <p><strong>Address:</strong> {{ customer.Address }}</p>
-        <p><strong>City:</strong> {{ customer.City }}</p>
-        <p><strong>Country:</strong> {{ customer.Country }}</p>
-        <p><strong>Email:</strong> {{ customer.Email }}</p>
+        <p><strong>ID:</strong> {{ profileData.CustomerID }}</p>
+        <p><strong>Name:</strong> {{ profileData.Name }}</p>
+        <p><strong>Contact Details:</strong> {{ profileData.ContactDetails }}</p>
+        <p><strong>Address:</strong> {{ profileData.Address }}</p>
+        <p><strong>City:</strong> {{ profileData.City }}</p>
+        <p><strong>Country:</strong> {{ profileData.Country }}</p>
+        <p><strong>Email:</strong> {{ profileData.Email }}</p>
       </div>
+    <div v-else-if="profileData && userType === 'employee'">
+    <h1>Employee Profile</h1>
+      <!-- Display employee-specific fields here -->
+    </div>
+
     <!-- Display error message -->
     <p v-if="error" class="error">{{ error }}</p>
 
@@ -25,7 +30,9 @@ export default {
   data() {
     return {
       customer: null,
-      error: ''
+      error: '',
+      profileData: null,
+      userType: localStorage.getItem('userType'),
     };
   },
 
@@ -33,16 +40,33 @@ export default {
     this.fetchCustomerProfile();
   },
 
+  async mounted() {
+    try {
+      const userId = localStorage.getItem('userId');
+      const userType = localStorage.getItem('userType');
+
+      if (userType === 'customer') {
+        const response = await axios.get(`http://localhost:18080/profile/customer/${userId}`);
+        this.profileData = response.data;
+      } else {
+        // Handle employee or other user types as needed
+      }
+    } catch (error) {
+      console.error('Error fetching profile data:', error);
+      this.error = 'Failed to load profile data.';
+    }
+  },
+
   methods: {
 
-    async fetchCustomerProfile() {
+    async fetchProfile() {
+      const userId = localStorage.getItem('userId');
+      this.userType = localStorage.getItem('userType');
       try {
-        // Assuming 'userId' and 'userType' are stored in local storage or global state
-        const userId = localStorage.getItem('userId');
-        const userType = localStorage.getItem('userType');
-        const response = await axios.get(`/profile/${userType}/${userId}`);
-        this.customer = response.data;
-      } catch (err) {
+        const response = await axios.get(`http://localhost:18080/profile/${this.userType}/${userId}`);
+        this.profileData = response.data;
+      } catch (error) {
+        console.error('Error fetching profile data:', error);
         this.error = 'Failed to load profile data.';
       }
     },
@@ -50,9 +74,11 @@ export default {
     logout() {
       // Remove the token from localStorage
       localStorage.removeItem('userToken');
+      localStorage.removeItem('userId');
+      localStorage.removeItem('userType');
+      
       this.$store.dispatch('authenticateUser', false);      
-      // Redirect the user to the home page
-      this.$router.push('/dashboard');
+      this.$router.push('/login');
     }
   }
 }
