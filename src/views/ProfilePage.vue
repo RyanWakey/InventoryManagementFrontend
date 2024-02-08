@@ -10,9 +10,11 @@
           <div class="profile-field"><strong>City:</strong> {{ profileData.City }}</div>
           <div class="profile-field"><strong>Country:</strong> {{ profileData.Country }}</div>
           <div class="profile-field"><strong>Email:</strong> {{ profileData.Email }}</div>
+          <button @click="showEditModal = true">Edit Profile</button>
         </div>
       </div>
-    <div v-else-if="profileData && userType === 'employee'">
+    
+      <div v-else-if="profileData && userType === 'employee'">
     <h1>Employee Profile</h1>
       <!-- Display employee-specific fields here -->
     </div>
@@ -22,11 +24,35 @@
 
     <button @click="logout" class="logout-button">Logout</button>
     </div> 
+
+
+
+    <ProfileEditModal 
+      :show="showEditModal" 
+      :profileData="profileData" 
+      @close-modal="showEditModal = false" 
+      @update-success="handleProfileUpdate"
+    />
 </template>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 <script>
 
 import axios from 'axios';
+import ProfileEditModal from "@/components/ProfileEditModal.vue"
 
 export default {
   data() {
@@ -35,7 +61,12 @@ export default {
       error: '',
       profileData: null,
       userType: localStorage.getItem('userType'),
+      showEditModal: false,
     };
+  },
+
+  components: {
+    ProfileEditModal // Register the modal component
   },
 
   created() {
@@ -83,10 +114,34 @@ export default {
 
       this.$store.dispatch('authenticateUser', false);      
       this.$router.push('/login');
-    }
+    },
+
+    showEdit() {
+      this.showEditModal = true;
+    },
+
+    handleProfileUpdate(updatedProfile) {
+      this.profileData = updatedProfile;
+      this.showEditModal = false; // Close the modal after successful update
+    },
+
   }
 }
 </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 <style scoped>
