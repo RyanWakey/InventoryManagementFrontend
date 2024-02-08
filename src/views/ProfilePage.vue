@@ -2,13 +2,15 @@
     <div class="profile-page">
       <div v-if="profileData && userType === 'customer'" class="profile-container">
         <h1>Customer Profile</h1>
-        <div class="profile-field"><strong>ID:</strong> {{ profileData.CustomerID }}</div>
-        <div class="profile-field"><strong>Name:</strong> {{ profileData.Name }}</div>
-        <div class="profile-field"><strong>Contact Details:</strong> {{ profileData.ContactDetails }}</div>
-        <div class="profile-field"><strong>Address:</strong> {{ profileData.Address }}</div>
-        <div class="profile-field"><strong>City:</strong> {{ profileData.City }}</div>
-        <div class="profile-field"><strong>Country:</strong> {{ profileData.Country }}</div>
-        <div class="profile-field"><strong>Email:</strong> {{ profileData.Email }}</div>
+        <div class="profile-details">
+          <div class="profile-field"><strong>ID:</strong> {{ profileData.CustomerID }}</div>
+          <div class="profile-field"><strong>Name:</strong> {{ profileData.Name }}</div>
+          <div class="profile-field"><strong>Contact Details:</strong> {{ profileData.ContactDetails }}</div>
+          <div class="profile-field"><strong>Address:</strong> {{ profileData.Address }}</div>
+          <div class="profile-field"><strong>City:</strong> {{ profileData.City }}</div>
+          <div class="profile-field"><strong>Country:</strong> {{ profileData.Country }}</div>
+          <div class="profile-field"><strong>Email:</strong> {{ profileData.Email }}</div>
+        </div>
       </div>
     <div v-else-if="profileData && userType === 'employee'">
     <h1>Employee Profile</h1>
@@ -16,9 +18,9 @@
     </div>
 
     <!-- Display error message -->
-    <p v-if="error" class="error">{{ error }}</p>
+    <p v-if="error" class="error-message">{{ error }}</p>
 
-    <button @click="logout">Logout</button>
+    <button @click="logout" class="logout-button">Logout</button>
     </div> 
 </template>
 
@@ -93,20 +95,31 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-top: 20px;
 }
 
 .profile-container {
   width: 100%;
-  max-width: 600px;
-  background: #fff;
+  max-width: 560px;
+  margin: 0 auto;
   padding: 20px;
-  border-radius: 10px;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 8px;
   box-shadow: 0 0 10px rgba(0,0,0,0.1);
   margin-bottom: 20px;
 }
 
+.profile-details {
+  border: 1px solid #ddd;
+  padding: 20px;
+  border-radius: 8px;
+  margin-top: 20px;
+}
+
 .profile-field {
-  margin-bottom: 10px;
+  font-size: 18px;
+  margin: 10px 0;
 }
 
 .logout-button {
@@ -116,14 +129,17 @@ export default {
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  font-size: 16px;
+  margin-top: 20px;
 }
 
 .logout-button:hover {
   background-color: #45a049;
 }
 
-.error {
+.error-message {
   color: red;
+  margin: 20px 0;
 }
 
 </style>
