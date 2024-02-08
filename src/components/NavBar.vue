@@ -13,24 +13,22 @@
       <router-link to="/accounting" class="navbar-item">Accounting</router-link>
     </div>
 
-    <!-- Profile Picture -->
-    <div class="profile-container">
-      <!-- If authenticated, show profile link -->
-      <router-link v-if="isAuthenticated" to="/profile" class="navbar-item"> 
-        <div>
-          <img src ="@/assets/ProfilePic.png" alt="Profile Image" class="profile-logo">
-          <p class="auth-message">You are logged in</p> <!-- Display message -->
-        </div>
-      </router-link>
-      
-      <!-- If not authenticated, show login link -->
-      <router-link v-else to="/login" class="navbar-item"> 
-        <div>
-          <img src ="@/assets/ProfilePic.png" alt="Profile Image" class="profile-logo">
-          <span class="auth-message">Login in</span> <!-- Display message -->
-        </div>
+    <!-- Profile Picture and authentication message -->
+    <div class="profile-container" v-if="isAuthenticated">
+      <router-link to="/profile" class="profile-link">
+        <img src="@/assets/ProfilePic.png" alt="Profile Image" class="profile-logo">
+        <p class="auth-message">You are logged in</p>
       </router-link>
     </div>
+    
+    <!-- If not authenticated, show login link -->
+    <div class="profile-container" v-else>
+      <router-link to="/login" class="profile-link">
+        <img src="@/assets/ProfilePic.png" alt="Profile Image" class="profile-logo">
+        <span class="auth-message">Login in</span>
+      </router-link>
+    </div>
+
   </nav>
 </template>
   
@@ -54,14 +52,14 @@ import { mapState } from 'vuex';
 
     created() {
       this.$store.dispatch('authenticateUser', !!localStorage.getItem('userToken'));
-    }
+    },
 }
 
   
 </script>
   
 <style scoped>
-  .navbar {
+.navbar {
     background-color: rgb(7, 124, 126);
     display: flex;
     align-items: center;
@@ -69,9 +67,7 @@ import { mapState } from 'vuex';
  }
  .navbar-menu {
     display: flex;
-    list-style: none;
-    margin: 0;
-    padding: 0;
+    align-items: center;
   }
  .navbar-brand {
     display: flex;
@@ -81,11 +77,6 @@ import { mapState } from 'vuex';
 
  .navbar-logo {
     width: 240px;
-    height: auto;
- }
- 
- .profile-logo {
-    width: 60px;
     height: auto;
  }
  
@@ -106,15 +97,31 @@ import { mapState } from 'vuex';
 }
 
 .profile-container {
-  margin-left: auto; 
-  width: 70px;
+  display: flex;
+  flex-direction: column;
   align-items: center;
+  margin-left: auto;
 }
 
+.profile-link {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  text-decoration: none;
+}
+
+.profile-logo {
+    width: 60px;
+    height: auto;
+ }
+ 
 .auth-message {
     color: white;
     font-size: 16px;
-  }
+    margin-right: 10px;
+}
+
 
 </style>
   

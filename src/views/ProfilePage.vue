@@ -1,14 +1,14 @@
 <template>
     <div class="profile-page">
-      <div v-if="profileData && userType === 'customer'">
+      <div v-if="profileData && userType === 'customer'" class="profile-container">
         <h1>Customer Profile</h1>
-        <p><strong>ID:</strong> {{ profileData.CustomerID }}</p>
-        <p><strong>Name:</strong> {{ profileData.Name }}</p>
-        <p><strong>Contact Details:</strong> {{ profileData.ContactDetails }}</p>
-        <p><strong>Address:</strong> {{ profileData.Address }}</p>
-        <p><strong>City:</strong> {{ profileData.City }}</p>
-        <p><strong>Country:</strong> {{ profileData.Country }}</p>
-        <p><strong>Email:</strong> {{ profileData.Email }}</p>
+        <div class="profile-field"><strong>ID:</strong> {{ profileData.CustomerID }}</div>
+        <div class="profile-field"><strong>Name:</strong> {{ profileData.Name }}</div>
+        <div class="profile-field"><strong>Contact Details:</strong> {{ profileData.ContactDetails }}</div>
+        <div class="profile-field"><strong>Address:</strong> {{ profileData.Address }}</div>
+        <div class="profile-field"><strong>City:</strong> {{ profileData.City }}</div>
+        <div class="profile-field"><strong>Country:</strong> {{ profileData.Country }}</div>
+        <div class="profile-field"><strong>Email:</strong> {{ profileData.Email }}</div>
       </div>
     <div v-else-if="profileData && userType === 'employee'">
     <h1>Employee Profile</h1>
@@ -88,10 +88,42 @@ export default {
 
 
 <style scoped>
+
 .profile-page { 
-  
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
+
+.profile-container {
+  width: 100%;
+  max-width: 600px;
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  margin-bottom: 20px;
+}
+
+.profile-field {
+  margin-bottom: 10px;
+}
+
+.logout-button {
+  padding: 10px 20px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.logout-button:hover {
+  background-color: #45a049;
+}
+
 .error {
   color: red;
 }
+
 </style>
