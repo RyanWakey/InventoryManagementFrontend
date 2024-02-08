@@ -30,7 +30,7 @@
     <ProfileEditModal 
       :show="showEditModal" 
       :profileData="profileData" 
-      @close-modal="showEditModal = false" 
+      @close="showEditModal = false" 
       @update-success="handleProfileUpdate"
     />
 </template>
