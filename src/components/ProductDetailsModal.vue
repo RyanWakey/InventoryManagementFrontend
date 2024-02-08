@@ -82,7 +82,9 @@ export default {
       editableProductDetails: {}
     };
   },
+
   methods: {
+    
     close() {
       this.$emit('close');
     },

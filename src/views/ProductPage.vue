@@ -106,7 +106,7 @@ export default {
     };
   },
   created() {
-    //this.fetchProducts();
+    // this.fetchProducts();
     this.fetchCategories();
     this.fetchAllProducts();
   },

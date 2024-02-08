@@ -78,7 +78,7 @@ export default {
     },
 
     saveProfileChanges() {
-      axios.patch(`http://localhost:18080/profile/customer/${this.profileData.CustomerID}/update`, this.editFields)
+      axios.patch(`http://localhost:18080/profile/customer/${this.profileData.CustomerID}/update`, this.editableProfileDetails)
       .then(response => { 
         this.$emit('update', response.data); // Inform the parent component about the update
         this.close();
