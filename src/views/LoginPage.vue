@@ -51,6 +51,9 @@ import axios from 'axios'
           if (response.status === 200) {
             // Store the token
             localStorage.setItem('userToken', response.data.token);
+            localStorage.setItem('userType', response.data.userType);
+            localStorage.setItem('userId', response.data.userId); // Assuming the backend sends userId
+            
             this.$store.dispatch('authenticateUser', true);
             // Redirect to dashboard
             this.$router.push({ path: '/dashboard' });

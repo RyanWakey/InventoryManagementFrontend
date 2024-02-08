@@ -37,14 +37,14 @@ export default {
   },
 
   created() {
-    this.fetchCustomerProfile();
+    this.fetchProfile();
   },
 
   async mounted() {
     try {
       const userId = localStorage.getItem('userId');
       const userType = localStorage.getItem('userType');
-
+      console.log(userId + " , " + userType);
       if (userType === 'customer') {
         const response = await axios.get(`http://localhost:18080/profile/customer/${userId}`);
         this.profileData = response.data;
@@ -62,6 +62,8 @@ export default {
     async fetchProfile() {
       const userId = localStorage.getItem('userId');
       this.userType = localStorage.getItem('userType');
+      console.log(userId + " , " + this.userType);
+
       try {
         const response = await axios.get(`http://localhost:18080/profile/${this.userType}/${userId}`);
         this.profileData = response.data;
@@ -76,7 +78,7 @@ export default {
       localStorage.removeItem('userToken');
       localStorage.removeItem('userId');
       localStorage.removeItem('userType');
-      
+
       this.$store.dispatch('authenticateUser', false);      
       this.$router.push('/login');
     }
