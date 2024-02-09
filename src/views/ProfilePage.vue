@@ -15,8 +15,20 @@
       </div>
     
       <div v-else-if="profileData && userType === 'employee'">
-    <h1>Employee Profile</h1>
-      <!-- Display employee-specific fields here -->
+        <div class="profile-details">
+          <h1>Employee Profile</h1>
+          <div class="profile-field"><strong>ID:</strong> {{ profileData.EmployeeID }}</div>
+          <div class="profile-field"><strong>Name:</strong> {{ profileData.FirstName }} {{ profileData.LastName }}</div>
+          <div class="profile-field"><strong>Date of Birth:</strong> {{ profileData.DOB }}</div>
+          <div class="profile-field"><strong>Gender:</strong> {{ profileData.Gender }}</div>
+          <div class="profile-field"><strong>Address:</strong> {{ profileData.Address }}</div>
+          <div class="profile-field"><strong>City:</strong> {{ profileData.City }}</div>
+          <div class="profile-field"><strong>Postal Code:</strong> {{ profileData.PostalCode }}</div>
+          <div class="profile-field"><strong>Phone:</strong> {{ profileData.Phone }}</div>
+          <p><strong>Profile Picture:</strong> <img :src="profileData.ProfilePicture" alt="Employee's Profile Picture"></p>
+          <div class="profile-field"><strong>Hire Date:</strong> {{ profileData.HireDate }}</div>
+          <div class="profile-field"><strong>Email:</strong> {{ profileData.Email }}</div>
+        </div>
     </div>
 
     <!-- Display error message -->
@@ -24,7 +36,7 @@
 
     <button @click="logout" class="logout-button">Logout</button>
     </div> 
-
+ 
 
 
     <ProfileEditModal 
@@ -57,7 +69,6 @@ import ProfileEditModal from "@/components/ProfileEditModal.vue"
 export default {
   data() {
     return {
-      customer: null,
       error: '',
       profileData: null,
       userType: localStorage.getItem('userType'),
