@@ -4,6 +4,7 @@ import ProductPage from '../views/ProductPage.vue'
 import LoginPage from '@/views/LoginPage.vue'
 import RegisterPage from '@/views/RegisterPage.vue'
 import ProfilePage from '../views/ProfilePage.vue'
+import SupplierPage from '../views/SupplierPage.vue'
 
 const routes = [
   {
@@ -34,7 +35,13 @@ const routes = [
     path: '/profile', // Added leading slash
     name: 'Profile',
     component: ProfilePage
-  }
+  },
+  {
+    path: '/suppliers',
+    name: 'Suppliers',
+    component: SupplierPage
+  },
+  
 ]
 
 const router = createRouter({

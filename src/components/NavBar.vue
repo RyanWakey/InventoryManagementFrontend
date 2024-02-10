@@ -10,7 +10,7 @@
     <div class="navbar-menu">
       <router-link to="/" class="navbar-item">Dashboard</router-link>
       <router-link to="/products" class="navbar-item">Business</router-link>
-      <router-link to="/accounting" class="navbar-item">Accounting</router-link>
+      <router-link to="/suppliers" class="navbar-item">Accounting</router-link>
     </div>
 
     <!-- Profile Picture and authentication message -->
