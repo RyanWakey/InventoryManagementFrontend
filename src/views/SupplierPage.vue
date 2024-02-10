@@ -37,6 +37,8 @@
   
   <script>
   
+  import axios from 'axios';
+
   export default {
     data() {
       return {
@@ -45,6 +47,11 @@
         showAddSupplierModal: false,
       };
     },
+
+    mounted() {
+      this.fetchSuppliers(); // Fetch suppliers when component mounts
+    },
+
     computed: {
       filteredSuppliers() {
         if (!this.searchQuery) {
@@ -58,27 +65,20 @@
     },
 
     methods: {
-        
-     fetchSuppliers() {
-      // Replace with your actual API endpoint
-      const apiEndpoint = 'http://localhost:8080/suppliers';
-
-      // Fetch the supplier data from the backend
-      fetch(apiEndpoint)
-        .then((response) => {
-          if (!response.ok) {
-            throw new Error('Network response was not ok');
-          }
-          return response.json();
-        })
-        .then((data) => {
-          this.suppliers = data;
-        })
-        .catch((error) => {
-          console.error('There has been a problem with your fetch operation:', error);
-        });
-     },
-    }
+      async fetchSuppliers() {
+        this.isLoading = true;
+        try {
+          const response = await axios.get(`http://localhost:18080/suppliers`);
+          console.log('Fetched Suppliers:', response.data); // Log the fetched products
+          this.suppliers = response.data; 
+          this.isLoading = false;
+        } catch (error) {
+          this.error = error;
+          this.isLoading = false;
+          console.error('There was an error fetching the suppliers:', error);
+        }
+      },
+    },
 
   };
   </script>
