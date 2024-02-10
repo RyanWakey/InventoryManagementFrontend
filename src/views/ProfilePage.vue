@@ -25,7 +25,12 @@
           <div class="profile-field"><strong>City:</strong> {{ profileData.City }}</div>
           <div class="profile-field"><strong>Postal Code:</strong> {{ profileData.PostalCode }}</div>
           <div class="profile-field"><strong>Phone:</strong> {{ profileData.Phone }}</div>
-          <p><strong>Profile Picture:</strong> <img :src="profileData.ProfilePicture" alt="Employee's Profile Picture"></p>
+          <div class="profile-field">
+            <strong>Profile Picture:</strong>
+            <div class="profile-picture-container">
+                <img :src="`http://localhost:18080${profileData.ProfilePicture}`" alt="Employee's Profile Picture" class="profile-picture">
+            </div>
+          </div>
           <div class="profile-field"><strong>Hire Date:</strong> {{ profileData.HireDate }}</div>
           <div class="profile-field"><strong>Email:</strong> {{ profileData.Email }}</div>
         </div>
@@ -186,6 +191,16 @@ export default {
 .profile-field {
   font-size: 18px;
   margin: 10px 0;
+}
+
+.profile-picture-container {
+    text-align: center; /* Center the image if the container is full width */
+}
+.profile-picture {
+  max-width: 200px; /* Adjust the width as needed */
+  max-height: 200px; /* Adjust the height as needed */
+  border-radius: 50%; /* Optional: Rounds the corners of the image to make it circular */
+  object-fit: cover; /* Ensures the image covers the area without distorting its aspect ratio */
 }
 
 .logout-button {
