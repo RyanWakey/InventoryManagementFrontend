@@ -19,7 +19,7 @@
               <th>Notes</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody class="table-body">
             <tr v-for="supplier in filteredSuppliers" :key="supplier.SupplierID">
               <td>{{ supplier.SupplierID }}</td>
               <td>{{ supplier.Name }}</td>
@@ -112,6 +112,12 @@
   margin-top: 60px;
   border: 1px solid #0000002a;
   padding: 30px;
+  table-layout: fixed;
+}
+
+.table-container .table-body {
+  max-height: 700px; /* Adjust the height to display the number of rows you want */
+  overflow-y: auto; /* Adds a scrollbar when the content overflows */
 }
 
 .table-header {
@@ -181,6 +187,16 @@ tbody tr:hover {
   background-color: #f0f0f0;
 }
 
-/* Additional styles as needed for specific columns */
-/* You can add classes as you did for the product table if you need specific widths */
+
+.table-container th, .table-container td {
+  word-wrap: break-word; /* This will break long words or URLs to the next line */
+  overflow-wrap: break-word; /* Use this as well for better compatibility */
+}
+
+/* To decrease the width of the Supplier ID field, set a smaller width */
+.table-container th:nth-child(1), /* First column */
+.table-container td:nth-child(1) {
+  width: 80px; 
+}
+
 </style>
