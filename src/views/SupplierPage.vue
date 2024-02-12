@@ -21,9 +21,13 @@
           </thead>
           <tbody class="table-body">
             <tr v-for="supplier in filteredSuppliers" :key="supplier.SupplierID">
-              <td>{{ supplier.SupplierID }}</td>
+              <td>
+                <a href="#" @click="openPurchaseOrders(supplier.SupplierID)" style="color: blue; text-decoration: underline;">
+                  {{ supplier.SupplierID }}
+                </a>
+              </td>
               <td>{{ supplier.Name }}</td>
-              <td>{{ supplier.Contactperson }}</td>
+              <td>{{ supplier.ContactPerson }}</td>
               <td>{{ supplier.ContactNumber }}</td>
               <td>{{ supplier.Email }}</td>
               <td>{{ supplier.Address }}</td>
@@ -33,24 +37,36 @@
         </table>
       </div>
     </div>
+
+
+    <PurchaseOrdersModal
+    :orders="purchaseOrders" 
+    @close="showPurchaseOrdersModal = false">
+    </PurchaseOrdersModal>  
   </template>
   
   <script>
   
   import axios from 'axios';
+  import PurchaseOrdersModal from '@/components/PurchaseOrderModal.vue'
 
   export default {
     data() {
       return {
         searchQuery: '',
-        suppliers: [], // You'll populate this array with your suppliers from the backend
-        showAddSupplierModal: false,
+        suppliers: [],
+        purchaseOrders: [],
+        showPurchaseOrdersModal: false,
       };
     },
 
     mounted() {
       this.fetchSuppliers(); // Fetch suppliers when component mounts
     },
+
+    components: {
+      PurchaseOrdersModal
+    },  
 
     computed: {
       filteredSuppliers() {
@@ -78,6 +94,20 @@
           console.error('There was an error fetching the suppliers:', error);
         }
       },
+    },
+
+    async openPurchaseOrders(supplierId) {
+      this.isLoading = true;
+      try {
+        const response = await axios.get(`http://localhost:18080/suppliers/${supplierId}/purchaseorders`);
+        console.log('Fetched Purchase Orders:', response.data);
+        this.purchaseOrders = response.data; 
+        this.showPurchaseOrdersModal = true;
+        this.isLoading = false;
+      } catch (error) {
+        console.error('Error fetching purchase orders:', error);
+        this.isLoading = false;
+      }
     },
 
   };
