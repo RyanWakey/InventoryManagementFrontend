@@ -1,7 +1,7 @@
 <template>
 <div v-if="visible" class="modal">
     <div class="modal-content">
-      <span class="close" @click="showPurchaseOrdersModal = false">&times;</span>
+      <span class="close" @click="close">&times;</span>
       <h2>Purchase Orders</h2>
       <table>
         <thead>
@@ -52,7 +52,10 @@ export default {
 
   data() {
     return {
+      orderDetails: [], // To store the details for the selected purchase order
       purchaseOrders: [], // To store the fetched purchase orders for the supplier
+      showOrderDetailsModal: false,
+      selectedOrderId: null,
     };
   },
 
@@ -86,7 +89,23 @@ export default {
     },
 
     close() {
-      this.$emit('update:visible', false); // Use v-model to control visibility from the parent
+      this.$emit('close');
+    },
+
+    openOrderDetails(orderId) {
+      this.selectedOrderId = orderId;
+      this.fetchOrderDetails();
+      this.showOrderDetailsModal = true;
+    },
+
+    fetchOrderDetails() {
+      axios.get(`http://localhost:18080/${this.selectedOrderId}`)
+      .then(response => {
+        this.orderDetails = response.data;
+      })
+      .catch(error => {
+        console.error('Error fetching order details:', error);
+      });
     },
 
   }
