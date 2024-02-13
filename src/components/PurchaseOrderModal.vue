@@ -1,27 +1,29 @@
-<template>=
-<div v-if="showPurchaseOrdersModal" class="modal">
+<template>
+<div v-if="visible" class="modal">
     <div class="modal-content">
       <span class="close" @click="showPurchaseOrdersModal = false">&times;</span>
       <h2>Purchase Orders</h2>
       <table>
         <thead>
           <tr>
-            <th>Order ID</th>
-            <th>Order Date</th>
-            <th>Expected Delivery Date</th>
-            <th>Status</th>
-            <th>Total Amount</th>
-            <!-- Add more headers as needed -->
+            <th class="small-column">Order ID</th>
+            <th class="small-column">Order ID</th>
+            <th class="small-column">Order ID</th>
+            <th class="small-column">Status</th>
+            <th class="small-column">Status</th>
+            <th class="small-column">RecievedDate</th>
+            <th class="notes-column">Notes</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody class="purchaseordertable-body">
           <tr v-for="order in purchaseOrders" :key="order.OrderID">
-            <td>{{ order.OrderID }}</td>
+            <td class="order-id-link" @click="openOrderDetails(order.OrderID)">{{ order.OrderID }}</td>
             <td>{{ order.OrderDate }}</td>
             <td>{{ order.ExpectedDeliveryDate }}</td>
             <td>{{ order.Status }}</td>
             <td>{{ order.TotalAmount }}</td>
-            <!-- Add more data fields as needed -->
+            <td>{{ order.RecievedDate }}</td>
+            <td class="notes-column">{{ order.Notes }}</td>
           </tr>
         </tbody>
       </table>
@@ -32,6 +34,7 @@
 
 
 <script>
+
 import axios from 'axios';
 
 export default {
@@ -110,8 +113,50 @@ export default {
     padding: 20px;
     border: 1px solid #888;
     width: 80%;
+    height: 600px;
+  }
+
+  .modal-content table thead th {
+    padding: 10px 20px; /* Top and bottom padding of 10px and left and right padding of 20px */
+    white-space: nowrap; /* Prevents the text from wrapping into multiple lines */
+    min-width: 120px; /* Adjust the minimum width as needed */
+  }
+
+  /* Optionally, you could also add some spacing between rows for better readability */
+  .modal-content table tbody tr {
+    border-bottom: 1px solid #ddd; /* Adds a line between rows */
+  }
+
+  .modal-content table {
+    width: 100%; /* Ensures the table takes the full width of the modal */
+    table-layout: fixed; /* This can make the columns more consistent in size */
   }
   
+  .modal-content table thead th,
+  .modal-content table tbody td {
+    padding: 10px 20px; /* Top and bottom padding of 10px and left and right padding of 20px */
+    text-align: center; /* Center the text horizontally */
+    white-space: nowrap; /* Prevents the text from wrapping into multiple lines */
+  }
+
+  .small-column {
+    width: 125px; 
+  }
+
+  .notes-column {
+    width: auto; 
+    max-width: 200px; 
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .order-id-link {
+    color: #0645ad;
+    cursor: pointer;
+    text-decoration: underline;
+  }
+
   .close {
     color: #aaa;
     float: right;
