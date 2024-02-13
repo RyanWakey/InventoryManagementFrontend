@@ -39,10 +39,12 @@
     </div>
 
 
-    <PurchaseOrdersModal
+    <PurchaseOrdersModal 
+    :visible="showPurchaseOrdersModal" 
     :orders="purchaseOrders" 
-    @close="showPurchaseOrdersModal = false">
-    </PurchaseOrdersModal>  
+    :supplierId="selectedSupplierId"
+    @close="showPurchaseOrdersModal = false"
+    ></PurchaseOrdersModal>  
   </template>
   
   <script>
@@ -55,6 +57,7 @@
       return {
         searchQuery: '',
         suppliers: [],
+        selectedSupplierId: null,
         purchaseOrders: [],
         showPurchaseOrdersModal: false,
       };
@@ -73,7 +76,6 @@
         if (!this.searchQuery) {
           return this.suppliers;
         }
-        // Simple search functionality
         return this.suppliers.filter((supplier) =>
           supplier.Name.toLowerCase().includes(this.searchQuery.toLowerCase())
         );
@@ -94,7 +96,7 @@
           console.error('There was an error fetching the suppliers:', error);
         }
       },
-    },
+    
 
     async openPurchaseOrders(supplierId) {
       this.isLoading = true;
@@ -102,6 +104,7 @@
         const response = await axios.get(`http://localhost:18080/suppliers/${supplierId}/purchaseorders`);
         console.log('Fetched Purchase Orders:', response.data);
         this.purchaseOrders = response.data; 
+        this.selectedSupplierId = supplierId;
         this.showPurchaseOrdersModal = true;
         this.isLoading = false;
       } catch (error) {
@@ -109,6 +112,7 @@
         this.isLoading = false;
       }
     },
+  }
 
   };
   </script>
