@@ -51,7 +51,7 @@
     :supplierId="selectedSupplierId"
     :orderId="selectedOrderId"
     :visible="showOrderDetailsModal"
-    @close="showOrderDetailsModal"
+    @close="showOrderDetailsModal = false"
     ></PurchaseOrderDetailsModal>
   </template>
   
@@ -130,10 +130,6 @@
       this.showPurchaseOrderModal = false;
       this.showOrderDetailsModal = true;
     },
-
-    handleCloseOrderDetails() {
-      this.showOrderDetailsModal = false;
-    }
   }
 
   };

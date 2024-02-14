@@ -88,29 +88,25 @@ export default {
         });
     },
 
+    async fetchOrderDetails() {
+    if (!this.selectedOrderId  || !this.visible) {
+      return;
+    }
+    axios.get(`http://localhost:18080/suppliers/${this.supplierId}/purchaseorders/${this.selectedOrderId}/details`)
+      .then(response => {
+        this.orderDetails = response.data;
+      })
+      .catch(error => {
+        console.error('Error fetching order details:', error);
+      });
+    },
+
     close() {
       this.$emit('close');
     },
 
     openOrderDetails(orderId) {
-      this.selectedOrderId = orderId;
       this.$emit('showOrderDetails', orderId);
-      this.fetchOrderDetails();
-    },
-
-    async fetchOrderDetails() {
-    if (!this.selectedOrderId  || !this.visible) {
-      return;
-    }
-    console.log("this.supplierid is - " + this.supplierId + " this.selectedOrderId is - " + this.selectedOrderId);
-    axios.get(`http://localhost:18080/suppliers/${this.supplierId}/purchaseorders/${this.selectedOrderId}/details`)
-      .then(response => {
-        this.orderDetails = response.data;
-        console.log("worked");
-      })
-      .catch(error => {
-        console.error('Error fetching order details:', error);
-      });
     },
 
   }
