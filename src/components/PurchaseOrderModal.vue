@@ -75,7 +75,7 @@ export default {
 
   methods: {
 
-    fetchPurchaseOrders() {
+    async fetchPurchaseOrders() {
       if (!this.supplierId || !this.visible) {
         return; // Do not fetch if no supplierId or if modal is not visible
       }
@@ -94,14 +94,19 @@ export default {
 
     openOrderDetails(orderId) {
       this.selectedOrderId = orderId;
+      this.$emit('showOrderDetails', orderId);
       this.fetchOrderDetails();
-      this.showOrderDetailsModal = true;
     },
 
-    fetchOrderDetails() {
-      axios.get(`http://localhost:18080/${this.selectedOrderId}`)
+    async fetchOrderDetails() {
+    if (!this.selectedOrderId  || !this.visible) {
+      return;
+    }
+    console.log("this.supplierid is - " + this.supplierId + " this.selectedOrderId is - " + this.selectedOrderId);
+    axios.get(`http://localhost:18080/suppliers/${this.supplierId}/purchaseorders/${this.selectedOrderId}/details`)
       .then(response => {
         this.orderDetails = response.data;
+        console.log("worked");
       })
       .catch(error => {
         console.error('Error fetching order details:', error);
@@ -138,10 +143,10 @@ export default {
   .modal-content table thead th {
     padding: 10px 20px; /* Top and bottom padding of 10px and left and right padding of 20px */
     white-space: nowrap; /* Prevents the text from wrapping into multiple lines */
-    min-width: 120px; /* Adjust the minimum width as needed */
+    min-width: 120px; 
   }
 
-  /* Optionally, you could also add some spacing between rows for better readability */
+  /* Add some spacing between rows for better readability */
   .modal-content table tbody tr {
     border-bottom: 1px solid #ddd; /* Adds a line between rows */
   }

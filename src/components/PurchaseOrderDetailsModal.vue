@@ -7,11 +7,11 @@
           <thead>
             <tr>
               <th>Detail ID</th>
-              <th>Product Name</th>
               <th>Quantity</th>
-              <th>Price</th>
-              <th>Total</th>
-              <!-- Add more detail columns as needed -->
+              <th>Unit Price</th>
+              <th>Total Price</th>
+              <th>OrderID</th>
+              <th>ProductID</th>
             </tr>
           </thead>
           <tbody>
@@ -21,7 +21,7 @@
               <td>{{ detail.UnitPrice }}</td>
               <td>{{ detail.TotalPrice }}</td>
               <td>{{ detail.OrderID }}</td>
-              <!-- Populate more details as needed -->
+              <td>{{ detail.ProductID }}</td>
             </tr>
           </tbody>
         </table>
@@ -31,6 +31,7 @@
 
 
 <script>
+
 import axios from 'axios';
 
 export default {
@@ -38,6 +39,10 @@ export default {
     orderId: {
       type: Number,
       required: true
+    },
+    supplierId: {
+        type: Number, 
+        required: true
     },
     visible: {
       type: Boolean,
@@ -65,11 +70,11 @@ export default {
   },
 
   methods: {
-    fetchOrderDetails() {
+    async fetchOrderDetails() {
       if (!this.orderId || !this.visible) {
         return;
       }
-      axios.get(`http://localhost:18080/suppliers/purchaseorders/${this.orderId}/details`)
+      axios.get(`http://localhost:18080/suppliers/${this.supplierId}/purchaseorders/${this.orderId}/details`)
         .then(response => {
           this.orderDetails = response.data;
         })
@@ -83,6 +88,7 @@ export default {
     }
   }
 };
+
 </script>
 
 <style>

@@ -40,26 +40,37 @@
 
 
     <PurchaseOrdersModal 
+    :supplierId="selectedSupplierId"
     :visible="showPurchaseOrdersModal" 
     :orders="purchaseOrders" 
-    :supplierId="selectedSupplierId"
     @close="showPurchaseOrdersModal = false"
+    @showOrderDetails="handleOrderSelected"
     ></PurchaseOrdersModal>  
+
+    <PurchaseOrderDetailsModal
+    :supplierId="selectedSupplierId"
+    :orderId="selectedOrderId"
+    :visible="showOrderDetailsModal"
+    @close="showOrderDetailsModal"
+    ></PurchaseOrderDetailsModal>
   </template>
   
   <script>
   
   import axios from 'axios';
   import PurchaseOrdersModal from '@/components/PurchaseOrderModal.vue'
+  import PurchaseOrderDetailsModal from '@/components/PurchaseOrderDetailsModal.vue'
 
   export default {
     data() {
       return {
+        purchaseOrders: [],
         searchQuery: '',
         suppliers: [],
         selectedSupplierId: null,
-        purchaseOrders: [],
+        selectedOrderId: null,  
         showPurchaseOrdersModal: false,
+        showOrderDetailsModal: false,
       };
     },
 
@@ -68,7 +79,8 @@
     },
 
     components: {
-      PurchaseOrdersModal
+      PurchaseOrdersModal,
+      PurchaseOrderDetailsModal
     },  
 
     computed: {
@@ -112,6 +124,16 @@
         this.isLoading = false;
       }
     },
+
+    handleOrderSelected(orderId) {
+      this.selectedOrderId = orderId;
+      this.showPurchaseOrderModal = false;
+      this.showOrderDetailsModal = true;
+    },
+
+    handleCloseOrderDetails() {
+      this.showOrderDetailsModal = false;
+    }
   }
 
   };
