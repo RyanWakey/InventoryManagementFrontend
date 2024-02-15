@@ -19,6 +19,7 @@
         <button type="submit">Login</button>
         <p v-if="error" class="error-message">{{ error }}</p>
       </form>
+      <button @click="navigateToRegister">Register an Account</button>
     </div>
   </div>
 </template>
@@ -64,6 +65,9 @@ import axios from 'axios'
         }
       },
 
+      navigateToRegister() {
+        this.$router.push({ path: '/register' });
+      },
       // checkAuthToken() { 
       //   const token = localStorage.getItem('userToken');
       //   if (token) {
@@ -116,6 +120,7 @@ button {
   border-radius: 4px;
   cursor: pointer;
   font-size: 18px; /* Larger font size */
+  margin-top: 10px;
 }
 
 button:hover {
