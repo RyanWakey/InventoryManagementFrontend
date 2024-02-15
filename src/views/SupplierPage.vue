@@ -45,6 +45,7 @@
       :orders="purchaseOrders" 
       @close="showPurchaseOrdersModal = false"
       @showOrderDetails="handleOrderSelected"
+      @openCreateOrder="handleCreateOrderOpen"
     ></PurchaseOrdersModal>  
 
     <PurchaseOrderDetailsModal
@@ -55,10 +56,10 @@
     ></PurchaseOrderDetailsModal>
 
     <CreatePurchaseOrderModal
-      :visible="isCreateOrderModalVisible"
+      :visible="showCreatePurchaseOrderModal"
       :suppliers="suppliers"
       :products="products"
-      @update:visible="isCreateOrderModalVisible = $event"
+      @update:visible="showCreatePurchaseOrderModal = $event"
     ></CreatePurchaseOrderModal>
   </template>
   
@@ -79,6 +80,7 @@
         selectedOrderId: null,  
         showPurchaseOrdersModal: false,
         showOrderDetailsModal: false,
+        showCreatePurchaseOrderModal: false,
       };
     },
 
@@ -148,6 +150,12 @@
         this.showPurchaseOrderModal = false;
         this.showOrderDetailsModal = true;
       },
+
+      handleCreateOrderOpen() {
+        this.showOrderDetailsModal = false; 
+        this.showCreatePurchaseOrderModal = true; 
+       
+      }
 
     }
 

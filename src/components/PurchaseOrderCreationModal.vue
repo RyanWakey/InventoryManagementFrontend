@@ -119,38 +119,74 @@ import axios from 'axios';
 <style scoped>
 
 .modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
 }
 
 .modal {
-    background-color: white;
-    padding: 20px;
-    border-radius: 5px;
-    max-width: 600px;
-    width: 90%;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  width: 400px; /* Adjusted for square appearance */
+  height: 400px; /* Adjusted for square appearance */
+  display: flex;
+  flex-direction: column;
+  justify-content: start; /* Changed from center to accommodate for header, body, and actions */
+  overflow-y: auto; /* Adds scroll for content exceeding the modal's height */
 }
+
 
 .modal-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
 }
+
+.modal-header h2 {
+  margin: 0;
+}
+
+.modal-header button {
+  border: none;
+  background-color: #f44336;
+  color: white;
+  border-radius: 50%;
+  cursor: pointer;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 
 .form-group {
-    margin-bottom: 15px;
+  margin-bottom: 20px;
 }
 
-input[type="number"], select {
-    margin-top: 5px;
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
 }
 
+.form-group input[type="number"],
+.form-group select {
+  width: 100%;
+  padding: 10px;
+  margin: 5px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
 
 </style>

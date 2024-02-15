@@ -113,6 +113,7 @@ export default {
     },
 
     openCreateOrderModal() {
+      this.$emit('close'); 
       this.$emit('openCreateOrder'); // Emit an event for the parent component
     }
 
@@ -121,7 +122,7 @@ export default {
 
 </script>
 
-<style>
+<style scoped>
 
   .modal-content {
     position: relative; /* This line is crucial */
