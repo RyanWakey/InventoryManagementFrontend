@@ -26,6 +26,9 @@
             <td class="notes-column">{{ order.Notes }}</td>
           </tr>
         </tbody>
+        <div class="create-order-button-container">
+          <button @click="openCreateOrderModal">Create Purchase Order</button>
+        </div>
       </table>
     </div>
   </div>
@@ -109,6 +112,10 @@ export default {
       this.$emit('showOrderDetails', orderId);
     },
 
+    openCreateOrderModal() {
+      this.$emit('openCreateOrder'); // Emit an event for the parent component
+    }
+
   }
 };
 
@@ -116,15 +123,16 @@ export default {
 
 <style>
 
-.modal {
-    position: fixed;
-    z-index: 1;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    background-color: rgba(0,0,0,0.4);
+  .modal-content {
+    position: relative; /* This line is crucial */
+    margin: 15% auto; /* Adjust as necessary */
+    padding: 20px;
+    padding-bottom: 60px; /* Increase padding to create space for the button */
+    border: 1px solid #888;
+    width: 80%; /* Adjust as necessary */
+    height: auto; /* Adjust if needed, or use a fixed height */
+    max-height: 600px; /* Consider using max-height to manage large content */
+    overflow-y: auto; /* Adds scroll to modal content if it exceeds max-height */
   }
   
   .modal-content {
@@ -189,6 +197,25 @@ export default {
     color: black;
     text-decoration: none;
     cursor: pointer;
+  }
+
+  .create-order-button-container {
+    position: absolute;
+    right: 20px; /* Adjust based on your layout */
+    bottom: 20px; /* Adjust based on your layout */
+  }
+
+  .create-order-button-container button {
+    background-color: #007bff; /* Example: a blue background */
+    color: white; /* White text color */
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  .create-order-button-container button:hover {
+    background-color: #0056b3; /* Darker shade for hover effect */
   }
 
 </style>

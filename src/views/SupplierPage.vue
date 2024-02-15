@@ -40,19 +40,26 @@
 
 
     <PurchaseOrdersModal 
-    :supplierId="selectedSupplierId"
-    :visible="showPurchaseOrdersModal" 
-    :orders="purchaseOrders" 
-    @close="showPurchaseOrdersModal = false"
-    @showOrderDetails="handleOrderSelected"
+      :supplierId="selectedSupplierId"
+      :visible="showPurchaseOrdersModal" 
+      :orders="purchaseOrders" 
+      @close="showPurchaseOrdersModal = false"
+      @showOrderDetails="handleOrderSelected"
     ></PurchaseOrdersModal>  
 
     <PurchaseOrderDetailsModal
-    :supplierId="selectedSupplierId"
-    :orderId="selectedOrderId"
-    :visible="showOrderDetailsModal"
-    @close="showOrderDetailsModal = false"
+      :supplierId="selectedSupplierId"
+      :orderId="selectedOrderId"
+      :visible="showOrderDetailsModal"
+      @close="showOrderDetailsModal = false"
     ></PurchaseOrderDetailsModal>
+
+    <CreatePurchaseOrderModal
+      :visible="isCreateOrderModalVisible"
+      :suppliers="suppliers"
+      :products="products"
+      @update:visible="isCreateOrderModalVisible = $event"
+    ></CreatePurchaseOrderModal>
   </template>
   
   <script>
@@ -60,6 +67,7 @@
   import axios from 'axios';
   import PurchaseOrdersModal from '@/components/PurchaseOrderModal.vue'
   import PurchaseOrderDetailsModal from '@/components/PurchaseOrderDetailsModal.vue'
+  import CreatePurchaseOrderModal from '@/components/PurchaseOrderCreationModal.vue'; // Adjust path as necessary
 
   export default {
     data() {
@@ -80,7 +88,8 @@
 
     components: {
       PurchaseOrdersModal,
-      PurchaseOrderDetailsModal
+      PurchaseOrderDetailsModal,
+      CreatePurchaseOrderModal
     },  
 
     computed: {
@@ -99,7 +108,7 @@
         this.isLoading = true;
         try {
           const response = await axios.get(`http://localhost:18080/suppliers`);
-          console.log('Fetched Suppliers:', response.data); // Log the fetched products
+          console.log('Fetched Suppliers:', response.data);
           this.suppliers = response.data; 
           this.isLoading = false;
         } catch (error) {
@@ -108,29 +117,39 @@
           console.error('There was an error fetching the suppliers:', error);
         }
       },
-    
+      
+      async fetchProducts() { 
+        try {
+         const reponse = await axios.get(`http://locahost:18080/products`);
+         this.products = reponse.data;
+        } catch (error) {
+          this.error = error;
+          console.error('There was an error fetching the products:', error);
+        }
+      },
 
-    async openPurchaseOrders(supplierId) {
-      this.isLoading = true;
-      try {
-        const response = await axios.get(`http://localhost:18080/suppliers/${supplierId}/purchaseorders`);
-        console.log('Fetched Purchase Orders:', response.data);
-        this.purchaseOrders = response.data; 
-        this.selectedSupplierId = supplierId;
-        this.showPurchaseOrdersModal = true;
-        this.isLoading = false;
-      } catch (error) {
-        console.error('Error fetching purchase orders:', error);
-        this.isLoading = false;
-      }
-    },
+      async openPurchaseOrders(supplierId) {
+        this.isLoading = true;
+        try {
+          const response = await axios.get(`http://localhost:18080/suppliers/${supplierId}/purchaseorders`);
+          console.log('Fetched Purchase Orders:', response.data);
+          this.purchaseOrders = response.data; 
+          this.selectedSupplierId = supplierId;
+          this.showPurchaseOrdersModal = true;
+          this.isLoading = false;
+        } catch (error) {
+          console.error('Error fetching purchase orders:', error);
+          this.isLoading = false;
+        }
+      },
 
-    handleOrderSelected(orderId) {
-      this.selectedOrderId = orderId;
-      this.showPurchaseOrderModal = false;
-      this.showOrderDetailsModal = true;
-    },
-  }
+      handleOrderSelected(orderId) {
+        this.selectedOrderId = orderId;
+        this.showPurchaseOrderModal = false;
+        this.showOrderDetailsModal = true;
+      },
+
+    }
 
   };
   </script>
