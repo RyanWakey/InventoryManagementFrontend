@@ -7,6 +7,7 @@
         </div>
         <div class="modal-body">
           <form @submit.prevent="submitOrder">
+            
             <div class="form-group">
               <label for="supplier">Supplier:</label>
               <select id="supplier" v-model="purchaseOrder.supplierId" required>
@@ -21,7 +22,7 @@
               <label>Product:</label>
               <select v-model="product.productId" @change="updateProductPrice(index)" required>
                 <option disabled value="">Select a product</option>
-                <option v-for="product in products" :key="product.id" :value="product.id">
+                <option v-for="product in products" :key="product.productId" :value="product.productId">
                   {{ product.Name }}
                 </option>
               </select>
@@ -78,7 +79,6 @@ import axios from 'axios';
           productId: null,
           quantity: 1
         });
-        // Ensure the user selects a product to update the total amount accurately
       },
   
       removeProduct(index) {
@@ -89,7 +89,6 @@ import axios from 'axios';
       updateProductPrice(index) {
         const selectedProduct = this.products.find(p => p.id === this.purchaseOrder.products[index].productId);
         if (selectedProduct) {
-          // Assuming the price property exists in your products array
           this.calculateTotalAmount();
         }
       },
@@ -101,17 +100,70 @@ import axios from 'axios';
         }, 0);
       },
   
-      async submitOrder() {
-        console.log("Submitting purchase order:", this.purchaseOrder);
+      async createPurchaseOrder() {
+        const today = new Date().toISOString().split('T')[0];
+        const purchaseOrderData = {
+          supplierId: this.purchaseOrder.supplierId,
+          orderDate: today,
+          expectedDeliveryDate: today,
+          receivedDate: today,
+          status: 'Completed',
+          notes: 'Purchased Goods for Stock',
+          totalAmount: this.totalAmount,
+        };
+
         try {
-          await axios.post('http://your-backend-api/purchaseOrders', this.purchaseOrder);
-          alert('Purchase order created successfully!');
-          this.close();
+          const response = await axios.post('http://your-backend-api/purchaseOrders', purchaseOrderData);
+          return response.data;
         } catch (error) {
           console.error('Error creating purchase order:', error);
-          alert('Failed to create purchase order.');
         }
-      }
+      },
+
+      async createPurchaseOrderDetails(orderId) {
+        for (const product of this.purchaseOrder.products) {
+          const detail = {
+            orderId: orderId,
+            productId: product.productId,
+            quantity: product.quantity,
+            unitPrice: this.products.find(p => p.id === product.productId)?.Cost || 0,
+            totalPrice: (this.products.find(p => p.id === product.productId)?.Cost || 0) * product.quantity,
+          };
+
+          try {
+            await axios.post('http://your-backend-api/purchaseOrderDetails', detail);
+          } catch (error) {
+            console.error(`Error creating purchase order detail for product ${product.productId}:`, error);
+          }
+        }
+      },
+
+
+      async updateProductStock() {
+        for (const product of this.purchaseOrder.products) {
+          try {
+            await axios.patch(`http://your-backend-api/products/${product.productId}`, {
+              stockQuantityIncrease: product.quantity,
+            });
+          } catch (error) {
+            console.error(`Error updating stock for product ${product.productId}:`, error);
+          }
+        }
+      },
+
+
+      async submitOrder() {
+        try {
+          const order = await this.createPurchaseOrder();
+          await this.createPurchaseOrderDetails(order.id);
+          await this.updateProductStock();
+          alert('Purchase order created and products updated successfully!');
+          this.close();
+        } catch (error) {
+          alert('Failed to complete the order process.');
+        }
+      },
+
     }
   };
 </script>

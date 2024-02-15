@@ -1,5 +1,5 @@
 <template>
-    <div v-if="visible" class="modal">
+    <div v-if="visible" class="purchase-order-modal-details  ">
       <div class="modal-content">
         <span class="close" @click="close">&times;</span>
         <h2>Purchase Order Details</h2>
@@ -92,9 +92,9 @@ export default {
 
 </script>
 
-<style scoped>
+<style>
 
-.modal {
+.purchase-order-modal-details {
     position: fixed;
     z-index: 1;
     left: 0;
