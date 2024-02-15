@@ -86,6 +86,7 @@
 
     mounted() {
       this.fetchSuppliers(); // Fetch suppliers when component mounts
+      this.fetchProducts();
     },
 
     components: {
@@ -120,15 +121,16 @@
         }
       },
       
-      async fetchProducts() { 
-        try {
-         const reponse = await axios.get(`http://locahost:18080/products`);
-         this.products = reponse.data;
-        } catch (error) {
-          this.error = error;
-          console.error('There was an error fetching the products:', error);
-        }
-      },
+      async fetchProducts() {
+      try {
+        const response = await axios.get(`http://localhost:18080/products`);
+        console.log('Fetched Products:', response.data); // Log the fetched products
+        this.products = response.data; 
+      } catch (error) {
+        this.error = error;
+        console.error('There was an error fetching the products:', error);
+      }
+    },
 
       async openPurchaseOrders(supplierId) {
         this.isLoading = true;
