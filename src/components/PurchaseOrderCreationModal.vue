@@ -10,9 +10,9 @@
             
             <div class="form-group">
               <label for="supplier">Supplier:</label>
-              <select id="supplier" v-model="purchaseOrder.supplierId" required>
+              <select id="supplier" v-model="purchaseOrder.SupplierID" @change="onSupplierChange" required>
                 <option disabled value="">Please select a supplier</option>
-                <option v-for="supplier in suppliers" :key="supplier.id" :value="supplier.id">
+                <option v-for="supplier in suppliers" :key="supplier.SupplierID" :value="supplier.SupplierID">
                   {{ supplier.Name }}
                 </option>
               </select>
@@ -20,14 +20,14 @@
   
             <div class="form-group" v-for="(product, index) in purchaseOrder.products" :key="index">
               <label>Product:</label>
-              <select v-model="product.productId" @change="updateProductPrice(index)" required>
+              <select v-model="product.ProductID" @change="updateProductPrice(index)" required>
                 <option disabled value="">Select a product</option>
-                <option v-for="product in products" :key="product.productId" :value="product.productId">
+                <option v-for="product in products" :key="product.ProductID" :value="product.ProductID">
                   {{ product.Name }}
                 </option>
               </select>
               <label>Quantity:</label>
-              <input type="number" v-model="product.quantity" @input="updateProductPrice(index)" min="1" required>
+              <input type="number" v-model="product.Quantity" @input="updateProductPrice(index)" min="1" required>
               <button @click.prevent="removeProduct(index)">Remove</button>
             </div>
   
@@ -59,13 +59,14 @@ import axios from 'axios';
     data() {
       return {
         purchaseOrder: {
-          supplierId: null,
+          SupplierID: 1,
           products: [{
-            productId: null,
-            quantity: 1
+            ProductID: 1,
+            Quantity: 1
           }]
         },
-        totalAmount: 0
+        totalAmount: 0,
+        OrderID: null
       };
     },
   
@@ -73,11 +74,15 @@ import axios from 'axios';
       close() {
         this.$emit('update:visible', false);
       },
-  
+      
+      // onSupplierChange(event) {
+      //   console.log(event.target.value) 
+      // },
+
       addProduct() {
         this.purchaseOrder.products.push({
-          productId: null,
-          quantity: 1
+          ProductID: null,
+          Quantity: 1
         });
       },
   
@@ -87,7 +92,7 @@ import axios from 'axios';
       },
   
       updateProductPrice(index) {
-        const selectedProduct = this.products.find(p => p.id === this.purchaseOrder.products[index].productId);
+        const selectedProduct = this.products.find(p => p.ProductID === this.purchaseOrder.products[index].ProductID);
         if (selectedProduct) {
           this.calculateTotalAmount();
         }
@@ -95,74 +100,76 @@ import axios from 'axios';
   
       calculateTotalAmount() {
         this.totalAmount = this.purchaseOrder.products.reduce((acc, product) => {
-          const productDetail = this.products.find(p => p.id === product.productId);
-          return acc + (productDetail ? productDetail.Cost * product.quantity : 0);
+          const productDetail = this.products.find(p => p.ProductID === product.ProductID);
+          return acc + (productDetail ? productDetail.Cost * product.Quantity : 0);
         }, 0);
       },
   
       async createPurchaseOrder() {
         const today = new Date().toISOString().split('T')[0];
         const purchaseOrderData = {
-          supplierId: this.purchaseOrder.supplierId,
-          orderDate: today,
-          expectedDeliveryDate: today,
-          receivedDate: today,
-          status: 'Completed',
-          notes: 'Purchased Goods for Stock',
-          totalAmount: this.totalAmount,
+          OrderDate: today,
+          ExpectedDeliveryDate: today,
+          Status: 'Completed',
+          TotalAmount: this.totalAmount,
+          ReceivedDate: today,
+          Notes: 'Purchased Goods for Stock',
+          SupplierID: this.purchaseOrder.SupplierID
         };
-
         try {
-          const response = await axios.post('http://your-backend-api/purchaseOrders', purchaseOrderData);
-          return response.data;
+          const response = await axios.post(`http://localhost:18080/suppliers/${this.purchaseOrder.SupplierID}/create-purchase-order`, purchaseOrderData);
+          this.OrderID = response.data.orderId;
         } catch (error) {
           console.error('Error creating purchase order:', error);
         }
       },
 
-      async createPurchaseOrderDetails(orderId) {
-        for (const product of this.purchaseOrder.products) {
-          const detail = {
-            orderId: orderId,
-            productId: product.productId,
-            quantity: product.quantity,
-            unitPrice: this.products.find(p => p.id === product.productId)?.Cost || 0,
-            totalPrice: (this.products.find(p => p.id === product.productId)?.Cost || 0) * product.quantity,
+      async createPurchaseOrderDetails() {
+        const detailsArray = this.purchaseOrder.products.map(product => {
+          const foundProduct = this.products.find(p => p.ProductID === product.ProductID);
+          console.log("Found product for detail creation:", foundProduct);
+          return {
+            Quantity: product.Quantity,
+            UnitPrice: foundProduct?.Cost || 0,
+            TotalPrice: (foundProduct?.Cost || 0) * product.Quantity,
+            OrderID: this.OrderID, 
+            ProductID: product.ProductID,
           };
+        });
 
-          try {
-            await axios.post('http://your-backend-api/purchaseOrderDetails', detail);
-          } catch (error) {
-            console.error(`Error creating purchase order detail for product ${product.productId}:`, error);
-          }
+        try {
+          await axios.post(`http://localhost:18080/purchase-orders/${this.OrderID}/details`, detailsArray); 
+        } catch (error) {
+          console.error(`Error creating purchase order detail for product:`, error);
         }
       },
-
 
       async updateProductStock() {
         for (const product of this.purchaseOrder.products) {
           try {
-            await axios.patch(`http://your-backend-api/products/${product.productId}`, {
-              stockQuantityIncrease: product.quantity,
+            // Use product.ProductID to access the current product's ID
+            await axios.patch(`http://localhost:18080/products/${product.ProductID}/update-stock`, {
+              StockQuantity: product.Quantity,
             });
           } catch (error) {
-            console.error(`Error updating stock for product ${product.productId}:`, error);
+            console.error(`Error updating stock for product ${product.ProductID}:`, error);
           }
         }
       },
 
 
       async submitOrder() {
-        try {
-          const order = await this.createPurchaseOrder();
-          await this.createPurchaseOrderDetails(order.id);
-          await this.updateProductStock();
-          alert('Purchase order created and products updated successfully!');
-          this.close();
-        } catch (error) {
-          alert('Failed to complete the order process.');
-        }
-      },
+      try {
+        await this.createPurchaseOrder();
+        await this.createPurchaseOrderDetails();
+        await this.updateProductStock();
+        alert('Purchase order created and products updated successfully!');
+        this.close();
+      } catch (error) {
+        console.error('Failed to complete the order process:', error);
+        alert('Failed to complete the order process.');
+      }
+    }
 
     }
   };
@@ -187,11 +194,11 @@ import axios from 'axios';
   background-color: #fff;
   padding: 20px;
   border-radius: 8px;
-  width: 400px; /* Adjusted for square appearance */
-  height: 400px; /* Adjusted for square appearance */
+  width: 400px; 
+  height: 400px; 
   display: flex;
   flex-direction: column;
-  justify-content: start; /* Changed from center to accommodate for header, body, and actions */
+  justify-content: flex-start;
   overflow-y: auto; /* Adds scroll for content exceeding the modal's height */
 }
 
