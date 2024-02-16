@@ -8,10 +8,10 @@
           <tr>
             <th class="small-column">Order ID</th>
             <th class="small-column">Order ID</th>
-            <th class="small-column">Order ID</th>
-            <th class="small-column">Status</th>
-            <th class="small-column">Status</th>
-            <th class="small-column">RecievedDate</th>
+            <th class="smaller-column">Order ID</th>
+            <th class="smaller-column">Status</th>
+            <th class="smaller-column">Status</th>
+            <th class="smaller-column">RecievedDate</th>
             <th class="notes-column">Notes</th>
           </tr>
         </thead>
@@ -145,15 +145,13 @@ export default {
     height: 600px;
   }
 
-  .modal-content table thead th {
-    padding: 10px 20px; /* Top and bottom padding of 10px and left and right padding of 20px */
-    white-space: nowrap; /* Prevents the text from wrapping into multiple lines */
-    min-width: 120px; 
-  }
-
-  /* Add some spacing between rows for better readability */
-  .modal-content table tbody tr {
-    border-bottom: 1px solid #ddd; /* Adds a line between rows */
+  .modal-content table thead th,
+  .modal-content table tbody td {
+      padding: 10px;
+      text-align: left;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
   }
 
   .modal-content table {
@@ -172,13 +170,20 @@ export default {
     width: 125px; 
   }
 
+  .smaller-column {
+    width: 85px; 
+  }
+
   .notes-column {
     width: auto; 
-    max-width: 200px; 
     overflow: hidden;
     text-overflow: ellipsis;
-    white-space: nowrap;
   }
+  
+  .modal-content table tbody td.notes-column {
+    white-space: normal; /* This allows the text to wrap */
+    word-wrap: break-word; /* This ensures long words do not overflow the container */
+}
 
   .order-id-link {
     color: #0645ad;
