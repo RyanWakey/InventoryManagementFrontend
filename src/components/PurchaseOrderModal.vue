@@ -45,6 +45,7 @@ export default {
   props: {
     supplierId: {
       type: Number,
+      default: 0,
       required: true
     },
     visible: {
@@ -59,6 +60,7 @@ export default {
       purchaseOrders: [], // To store the fetched purchase orders for the supplier
       showOrderDetailsModal: false,
       selectedOrderId: null,
+      
     };
   },
 

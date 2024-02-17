@@ -68,7 +68,7 @@
   import axios from 'axios';
   import PurchaseOrdersModal from '@/components/PurchaseOrderModal.vue'
   import PurchaseOrderDetailsModal from '@/components/PurchaseOrderDetailsModal.vue'
-  import CreatePurchaseOrderModal from '@/components/PurchaseOrderCreationModal.vue'; // Adjust path as necessary
+  import CreatePurchaseOrderModal from '@/components/PurchaseOrderCreationModal.vue';
 
   export default {
     data() {
@@ -76,8 +76,9 @@
         purchaseOrders: [],
         searchQuery: '',
         suppliers: [],
-        selectedSupplierId: null,
-        selectedOrderId: null,  
+        products: [],
+        selectedSupplierId: 0,
+        selectedOrderId: 0,  
         showPurchaseOrdersModal: false,
         showOrderDetailsModal: false,
         showCreatePurchaseOrderModal: false,
