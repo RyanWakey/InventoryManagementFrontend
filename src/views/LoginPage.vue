@@ -53,8 +53,17 @@ import axios from 'axios'
             // Store the token
             localStorage.setItem('userToken', response.data.token);
             localStorage.setItem('userType', response.data.userType);
-            localStorage.setItem('userId', response.data.userId); // Assuming the backend sends userId
-            
+            localStorage.setItem('userId', response.data.userId); 
+           
+            if (response.data.roles && response.data.roles.length > 0) {
+              // Store the first role name 
+              localStorage.setItem('userRole', response.data.roles[0].RoleName);
+            } else {
+              // No roles are returned
+              console.log('No roles found for the user.');
+              localStorage.removeItem('userRole'); // or localStorage.setItem('userRole', 'defaultRole');
+            }
+
             this.$store.dispatch('authenticateUser', true);
             // Redirect to dashboard
             this.$router.push({ path: '/dashboard' });

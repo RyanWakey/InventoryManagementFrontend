@@ -35,14 +35,14 @@
       </div>
 
       <div class="modal-actions">
-        <div class="edit-button" v-if="!isEditing">
+        <div class="edit-button" v-if="!isEditing && isAdmin">
           <button @click="toggleEdit">Edit</button>
         </div>
-        <div class="save-delete-buttons" v-else>
+        <div class="save-delete-buttons" v-if="isEditing && isAdmin">
           <button @click="saveChanges">Save</button>
           <button @click="toggleEdit">Cancel</button>
         </div>
-        <div class="delete-button">
+        <div class="delete-button" v-if="isAdmin">
           <button @click="deleteProduct">Delete</button>
         </div>
       </div>
@@ -81,6 +81,13 @@ export default {
       isEditing: false,
       editableProductDetails: {}
     };
+  },
+
+  computed: {
+    isAdmin() {
+      console.log(localStorage.getItem('userRole') === 'Admin');
+      return localStorage.getItem('userRole') === 'Admin';
+    }
   },
 
   methods: {
